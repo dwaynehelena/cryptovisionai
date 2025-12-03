@@ -52,5 +52,4 @@ frontend/out/
 
 # Data
 data/
-models/
-!models/.gitkeep
+

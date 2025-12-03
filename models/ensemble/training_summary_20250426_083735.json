@@ -1,0 +1,86 @@
+{
+    "timestamp": "20250426_083735",
+    "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "BNBUSDT",
+        "SOLUSDT",
+        "DOTUSDT"
+    ],
+    "feature_set": "advanced",
+    "n_selected_features": 136,
+    "ensemble_metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "auc": 1.0
+    },
+    "individual_metrics": {
+        "random_forest": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        "xgboost": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        "lightgbm": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        }
+    },
+    "fold_metrics": [
+        {
+            "accuracy": 0.9921259842519685,
+            "precision": 0.9855072463768116,
+            "recall": 1.0,
+            "f1_score": 0.9927007299270073,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        }
+    ],
+    "avg_fold_metrics": {
+        "accuracy": 0.9984251968503937,
+        "precision": 0.9971014492753623,
+        "recall": 1.0,
+        "f1_score": 0.9985401459854014,
+        "auc": 1.0
+    }
+}

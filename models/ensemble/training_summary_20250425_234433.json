@@ -1,0 +1,86 @@
+{
+    "timestamp": "20250425_234433",
+    "symbols": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "BNBUSDT",
+        "SOLUSDT",
+        "DOTUSDT"
+    ],
+    "feature_set": "advanced",
+    "n_selected_features": 60,
+    "ensemble_metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "auc": 1.0
+    },
+    "individual_metrics": {
+        "random_forest": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        "xgboost": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        "lightgbm": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        }
+    },
+    "fold_metrics": [
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0,
+            "auc": 1.0
+        },
+        {
+            "accuracy": 0.9959514170040485,
+            "precision": 0.9921875,
+            "recall": 1.0,
+            "f1_score": 0.996078431372549,
+            "auc": 1.0
+        }
+    ],
+    "avg_fold_metrics": {
+        "accuracy": 0.9991902834008097,
+        "precision": 0.9984375,
+        "recall": 1.0,
+        "f1_score": 0.9992156862745099,
+        "auc": 1.0
+    }
+}
