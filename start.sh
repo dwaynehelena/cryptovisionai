@@ -14,7 +14,7 @@ fi
 
 # Activate virtual environment
 echo "🔧 Activating virtual environment..."
-source venv/bin/activate
+source cryptovision_py39_env/bin/activate
 
 # Start backend API
 echo "🐍 Starting FastAPI backend..."

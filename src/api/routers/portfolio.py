@@ -62,6 +62,13 @@ def get_portfolio_summary(trading_system: TradingSystem = Depends(get_trading_sy
         total_pnl = current_value - initial_capital
         total_return_pct = (total_pnl / initial_capital) * 100 if initial_capital > 0 else 0
         
+        return {
+            'total_value': total_balance,
+            'initial_capital': initial_capital,
+            'total_pnl': total_pnl,
+            'total_return_pct': total_return_pct,
+            'positions_count': len(positions),
+            'assets': positions,
             'last_updated': datetime.utcnow().isoformat()
         }
     except Exception as e:

@@ -42,6 +42,12 @@ import CorrelationMatrix from './CorrelationMatrix';
 import VolatilityIndicator from './VolatilityIndicator';
 import KeyboardShortcuts from './KeyboardShortcuts';
 import Watchlist from './Watchlist';
+import Settings from './Settings';
+import ConnectionStatus from './ConnectionStatus';
+import SentimentAnalysis from './SentimentAnalysis';
+import AIPrediction from './AIPrediction';
+import NewsFeed from './NewsFeed';
+import StrategyBuilder from './StrategyBuilder';
 
 const drawerWidth = 240;
 
@@ -69,6 +75,11 @@ const initialLayouts = {
         { i: 'allocation', x: 0, y: 33, w: 6, h: 6 },
         { i: 'correlation', x: 6, y: 33, w: 6, h: 6 },
         { i: 'risk_settings', x: 0, y: 39, w: 12, h: 4 },
+        { i: 'sentiment', x: 0, y: 43, w: 4, h: 6 },
+        { i: 'prediction', x: 4, y: 43, w: 4, h: 6 },
+        { i: 'news', x: 8, y: 43, w: 4, h: 6 },
+        { i: 'strategy', x: 0, y: 49, w: 12, h: 8 },
+        { i: 'settings_page', x: 0, y: 57, w: 12, h: 8 },
     ],
 };
 
@@ -168,37 +179,11 @@ const Dashboard: React.FC = () => {
                         {isDraggable ? 'Save Layout' : 'Edit Layout'}
                     </Button>
 
+                    <ConnectionStatus />
                     <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                            px: 2,
-                            py: 0.5,
-                            borderRadius: 3,
-                            backgroundColor: alpha(theme.palette.success.main, 0.15),
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: '50%',
-                                backgroundColor: theme.palette.success.main,
-                                animation: 'pulse 2s ease-in-out infinite',
-                                '@keyframes pulse': {
-                                    '0%, 100%': { opacity: 1 },
-                                    '50%': { opacity: 0.5 },
-                                },
-                            }}
-                        />
-                        <Typography variant="body2" sx={{ color: theme.palette.success.main, fontWeight: 600 }}>
-                            Connected
-                        </Typography>
-                    </Box>
+
                 </Toolbar>
             </AppBar>
             <Box
@@ -290,6 +275,21 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div key="risk_settings" className={isDraggable ? 'drag-handle' : ''}>
                             <RiskSettings />
+                        </div>
+                        <div key="sentiment" className={isDraggable ? 'drag-handle' : ''}>
+                            <SentimentAnalysis symbol={selectedSymbol} />
+                        </div>
+                        <div key="prediction" className={isDraggable ? 'drag-handle' : ''}>
+                            <AIPrediction symbol={selectedSymbol} />
+                        </div>
+                        <div key="news" className={isDraggable ? 'drag-handle' : ''}>
+                            <NewsFeed />
+                        </div>
+                        <div key="strategy" className={isDraggable ? 'drag-handle' : ''}>
+                            <StrategyBuilder />
+                        </div>
+                        <div key="settings_page" className={isDraggable ? 'drag-handle' : ''}>
+                            <Settings />
                         </div>
                     </ResponsiveGridLayout>
                     <KeyboardShortcuts

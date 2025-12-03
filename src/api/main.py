@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.routers import market, portfolio, orders, risk
+from src.api.routers import market, portfolio, orders, risk, system, analysis
 from src.api.config import settings
 from src.api.middleware import catch_exceptions_middleware, log_requests_middleware, setup_exception_handlers
 from src.api.websocket import market_data_stream, manager
@@ -97,6 +97,8 @@ def create_app() -> FastAPI:
     app.include_router(portfolio.router)
     app.include_router(orders.router)
     app.include_router(risk.router)
+    app.include_router(system.router)
+    app.include_router(analysis.router)
     
     logger.info("FastAPI application started successfully")
     

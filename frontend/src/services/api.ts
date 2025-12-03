@@ -225,6 +225,42 @@ class ApiService {
         const response = await this.client.post('/api/v1/risk/disable-trading');
         return response.data;
     }
+
+    // System & Settings
+    async getSystemStatus() {
+        const response = await this.client.get('/api/v1/system/status');
+        return response.data;
+    }
+
+    async validateApiKeys(apiKey: string, apiSecret: string, testnet: boolean = true) {
+        const response = await this.client.post('/api/v1/system/validate-keys', {
+            api_key: apiKey,
+            api_secret: apiSecret,
+            testnet
+        });
+        return response.data;
+    }
+
+    // Analysis & Advanced Features
+    async getSentiment(symbol: string) {
+        const response = await this.client.get(`/api/v1/analysis/sentiment/${symbol}`);
+        return response.data;
+    }
+
+    async getPrediction(symbol: string) {
+        const response = await this.client.get(`/api/v1/analysis/prediction/${symbol}`);
+        return response.data;
+    }
+
+    async getNews(category: string = 'all') {
+        const response = await this.client.get('/api/v1/analysis/news', { params: { category } });
+        return response.data;
+    }
+
+    async runBacktest(params: any) {
+        const response = await this.client.post('/api/v1/analysis/backtest', params);
+        return response.data;
+    }
 }
 
 export const apiService = new ApiService();
