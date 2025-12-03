@@ -1,0 +1,172 @@
+# CryptoVisionAI Production Configuration Template
+# IMPORTANT: Copy this template and fill in all required fields before deploying to production
+
+# General Settings
+general:
+  mode: "live"  # Set to "live" for production
+  debug: false  # Turn off debug mode in production
+
+# API Settings
+api:
+  binance:
+    mainnet:
+      base_url: "https://api.binance.com"
+      ws_url: "wss://stream.binance.com:9443/ws"
+      # CRITICAL: Replace with secure production API keys
+      api_key: "YOUR_PRODUCTION_API_KEY"
+      api_secret: "YOUR_PRODUCTION_API_SECRET"
+    testnet:
+      base_url: "https://testnet.binance.vision"
+      ws_url: "wss://testnet.binance.vision/ws"
+      api_key: "YOUR_TESTNET_API_KEY"
+      api_secret: "YOUR_TESTNET_API_SECRET"
+
+# Alerts Configuration
+alerts:
+  alerts_enabled: true
+  test_mode: false  # Set to false in production
+  max_history: 5000
+  # Alert thresholds
+  thresholds:
+    max_drawdown_warning: 8.0     # Portfolio drawdown % for warning
+    max_drawdown_critical: 12.0   # Portfolio drawdown % for critical alert
+    max_drawdown_emergency: 15.0  # Portfolio drawdown % for emergency alert - trigger emergency protocols
+    position_loss_warning: 4.0    # Position loss % for warning
+    position_loss_critical: 8.0   # Position loss % for critical alert
+    trade_size_warning: 3.0       # Trade size % of portfolio for warning
+    trade_size_critical: 5.0      # Trade size % of portfolio for critical alert
+    api_latency_warning: 500      # API latency in ms for warning
+    api_latency_critical: 2000    # API latency in ms for critical alert
+    error_rate_warning: 3         # Errors per hour for warning
+    error_rate_critical: 10       # Errors per hour for critical alert
+  # Email notifications - REQUIRED FOR PRODUCTION
+  email:
+    enabled: true
+    smtp_server: "smtp.your-provider.com"
+    smtp_port: 587
+    smtp_user: "your-production-email@example.com"
+    smtp_password: "YOUR_SECURE_APP_PASSWORD"  # Use app-specific password
+    sender: "crypto-alerts@yourcompany.com"
+    recipients:
+      - "primary-trader@yourcompany.com"
+      - "backup-trader@yourcompany.com"
+      - "technical-support@yourcompany.com"
+  # SMS notifications - HIGHLY RECOMMENDED FOR CRITICAL ALERTS
+  sms:
+    enabled: true
+    service: "twilio"  # SMS service provider
+    account_sid: "YOUR_TWILIO_ACCOUNT_SID"
+    auth_token: "YOUR_TWILIO_AUTH_TOKEN"
+    from_number: "+1234567890"
+    recipients:
+      - "+1987654321"  # Primary trader
+      - "+1123456789"  # Secondary trader
+  # Webhook notifications - Optional for integration with other systems
+  webhook:
+    enabled: false  # Enable if you have monitoring systems to connect to
+    url: "https://hooks.yourcompany.com/services/your-webhook-id"
+    auth_header: "Bearer YOUR_AUTH_TOKEN"
+  # Rate limiting to prevent alert flooding
+  rate_limits:
+    email_interval_minutes: 15
+    sms_interval_minutes: 30
+    webhook_interval_minutes: 5
+
+# Binance connector settings
+binance:
+  use_testnet: false  # CRITICAL: Set to false for production
+  # Use the same API keys as defined in the api section
+  api_key: "YOUR_PRODUCTION_API_KEY"
+  api_secret: "YOUR_PRODUCTION_API_SECRET"
+
+# Trading Settings
+trading:
+  base_asset: "BTC"
+  quote_asset: "USDT"
+  initial_capital: 10000.0  # Set to your actual starting capital
+  update_interval_seconds: 60
+  signal_interval_minutes: 60
+  test_mode: false  # CRITICAL: Set to false to execute real trades
+
+# Risk Management - CONSERVATIVE SETTINGS FOR PRODUCTION
+risk_management:
+  max_portfolio_risk: 2.0      # Maximum allowed risk (2%)
+  max_position_size: 3.0       # Maximum position size as % of portfolio
+  max_open_positions: 3        # Limit open positions initially
+  stop_loss_percent: 3.0       # Default stop loss (3%)
+  take_profit_percent: 6.0     # Default take profit (6%)
+  max_drawdown_limit: 15.0     # Maximum drawdown before suspending trading
+  risk_per_trade: 0.5          # % of portfolio per trade
+  kelly_fraction: 0.3          # Kelly criterion fraction (conservative)
+  volatility_window: 20
+  max_correlation: 0.7
+
+# Data Settings
+data:
+  timeframes: ["1m", "5m", "15m", "1h", "4h", "1d"]
+  default_timeframe: "1h"
+  history_length: 10000  # Number of candles to fetch for historical data
+  features:
+    technical_indicators: true
+    market_indicators: true
+    sentiment_analysis: true
+    on_chain_metrics: false
+
+# Model Settings
+model:
+  model_path: "models/ensemble"
+  feature_set: "advanced"
+  model_config:
+    ensemble_type: "voting"  # Options: voting, stacking
+    models:
+      lstm:
+        enabled: true
+        weight: 1.0
+      transformer:
+        enabled: true
+        weight: 1.0
+      xgboost:
+        enabled: true
+        weight: 1.0
+      lightgbm:
+        enabled: true
+        weight: 1.0
+      random_forest:
+        enabled: true
+        weight: 0.8
+
+# Dashboard
+dashboard:
+  refresh_interval: 30
+  port: 8050
+  host: "0.0.0.0"  # Change to specific IP if needed for security
+  debug: false     # Disable debug in production
+
+# Authentication - REQUIRED FOR PRODUCTION
+auth:
+  enabled: true  # Always enable authentication in production
+  jwt_secret: "GENERATE_A_STRONG_RANDOM_SECRET_KEY_HERE"  # At least 32 characters
+  jwt_expiration_hours: 8  # Shorter session for production
+  users:
+    admin:
+      password_hash: "REPLACE_WITH_BCRYPT_PASSWORD_HASH"  # Generate with bcrypt
+      role: "admin"
+    trader:
+      password_hash: "REPLACE_WITH_BCRYPT_PASSWORD_HASH"  # Generate with bcrypt
+      role: "trader"
+    viewer:
+      password_hash: "REPLACE_WITH_BCRYPT_PASSWORD_HASH"  # Generate with bcrypt
+      role: "viewer"
+
+# Logging - Enhanced for production
+logging:
+  level: "INFO"  # Use INFO level for production
+  save_to_file: true
+  log_directory: "logs"
+  rotation: "daily"
+  max_log_files: 90  # Keep 90 days of logs
+  log_format: "[%(asctime)s] [%(levelname)s] [%(name)s] - %(message)s"
+  # Additional logging options
+  log_to_console: true
+  log_trades: true
+  log_predictions: true

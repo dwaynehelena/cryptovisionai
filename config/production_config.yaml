@@ -1,0 +1,150 @@
+alerts:
+  alerts_enabled: true
+  email:
+    enabled: false
+    recipients:
+    - primary-trader@yourcompany.com
+    - backup-trader@yourcompany.com
+    - technical-support@yourcompany.com
+    sender: crypto-alerts@yourcompany.com
+    smtp_password: YOUR_SECURE_APP_PASSWORD
+    smtp_port: 587
+    smtp_server: smtp.your-provider.com
+    smtp_user: your-production-email@example.com
+  max_history: 5000
+  rate_limits:
+    email_interval_minutes: 15
+    sms_interval_minutes: 30
+    webhook_interval_minutes: 5
+  sms:
+    account_sid: YOUR_TWILIO_ACCOUNT_SID
+    auth_token: YOUR_TWILIO_AUTH_TOKEN
+    enabled: true
+    from_number: '+1234567890'
+    recipients:
+    - '+1987654321'
+    - '+1123456789'
+    service: twilio
+  test_mode: false
+  thresholds:
+    api_latency_critical: 2000
+    api_latency_warning: 500
+    error_rate_critical: 10
+    error_rate_warning: 3
+    max_drawdown_critical: 12.0
+    max_drawdown_emergency: 15.0
+    max_drawdown_warning: 8.0
+    position_loss_critical: 8.0
+    position_loss_warning: 4.0
+    trade_size_critical: 5.0
+    trade_size_warning: 3.0
+  webhook:
+    auth_header: Bearer YOUR_AUTH_TOKEN
+    enabled: false
+    url: https://hooks.yourcompany.com/services/your-webhook-id
+api:
+  binance:
+    mainnet:
+      api_key: yBCMyJMyPByfagVHCCDbuKs0LkKp3AYNePuZBLOy8BpQBB5ReNBFhclVMDJqQa93
+      api_secret: "WL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYva\e\
+        [C\e[B\e[C\e[C\e[C\e[D\e[DWL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYva\e\
+        [B\e[B\e[B\e[B\e[B\e[C\e[CWL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYvaWL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYva"
+      base_url: https://api.binance.com
+      ws_url: wss://stream.binance.com:9443/ws
+    testnet:
+      api_key: YOUR_TESTNET_API_KEY
+      api_secret: YOUR_TESTNET_API_SECRET
+      base_url: https://testnet.binance.vision
+      ws_url: wss://testnet.binance.vision/ws
+auth:
+  enabled: true
+  jwt_expiration_hours: 8
+  jwt_secret: da1f9872fd875fae37ee2c92fe8b6a099e79e29dbc2dd3892f423cad028ab951
+  users:
+    admin:
+      password_hash: 3e51720d65e67f9a90ded2e92f0ee330d9f1b83533b81e5109ca7fe3439bb8cb
+      role: admin
+    trader:
+      password_hash: REPLACE_WITH_BCRYPT_PASSWORD_HASH
+      role: trader
+    viewer:
+      password_hash: REPLACE_WITH_BCRYPT_PASSWORD_HASH
+      role: viewer
+binance:
+  api_key: yBCMyJMyPByfagVHCCDbuKs0LkKp3AYNePuZBLOy8BpQBB5ReNBFhclVMDJqQa93
+  api_secret: "WL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYva\e\
+    [C\e[B\e[C\e[C\e[C\e[D\e[DWL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYva\e\
+    [B\e[B\e[B\e[B\e[B\e[C\e[CWL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYvaWL2VISdwQWGh0XYPsLh2srzhIZx8boVs1CgWlvboEEFqRsYTXk2ndWXRKyMliYva"
+  use_testnet: false
+dashboard:
+  debug: false
+  host: 0.0.0.0
+  port: 8050
+  refresh_interval: 30
+data:
+  default_timeframe: 1h
+  features:
+    market_indicators: true
+    on_chain_metrics: false
+    sentiment_analysis: true
+    technical_indicators: true
+  history_length: 10000
+  timeframes:
+  - 1m
+  - 5m
+  - 15m
+  - 1h
+  - 4h
+  - 1d
+general:
+  debug: false
+  mode: live
+logging:
+  level: INFO
+  log_directory: logs
+  log_format: '[%(asctime)s] [%(levelname)s] [%(name)s] - %(message)s'
+  log_predictions: true
+  log_to_console: true
+  log_trades: true
+  max_log_files: 90
+  rotation: daily
+  save_to_file: true
+model:
+  feature_set: advanced
+  model_config:
+    ensemble_type: voting
+    models:
+      lightgbm:
+        enabled: true
+        weight: 1.0
+      lstm:
+        enabled: true
+        weight: 1.0
+      random_forest:
+        enabled: true
+        weight: 0.8
+      transformer:
+        enabled: true
+        weight: 1.0
+      xgboost:
+        enabled: true
+        weight: 1.0
+  model_path: models/ensemble
+risk_management:
+  kelly_fraction: 0.3
+  max_correlation: 0.7
+  max_drawdown_limit: 15.0
+  max_open_positions: 3
+  max_portfolio_risk: 2.0
+  max_position_size: 3.0
+  risk_per_trade: 0.5
+  stop_loss_percent: 3.0
+  take_profit_percent: 6.0
+  volatility_window: 20
+trading:
+  base_asset: BTC
+  initial_capital: 10000.0
+  quote_asset: USDT
+  signal_interval_minutes: 60
+  test_mode: false
+  update_interval_seconds: 60
