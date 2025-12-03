@@ -1,14 +1,18 @@
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { theme } from './theme';
+import { useColorMode, ColorModeContext } from './theme';
 import Dashboard from './components/Dashboard';
 
 function App() {
+  const { theme, colorMode } = useColorMode();
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Dashboard />
-    </ThemeProvider>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Dashboard />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

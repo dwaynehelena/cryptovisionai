@@ -52,6 +52,11 @@ class ApiService {
         return response.data;
     }
 
+    async getTicker(symbol: string) {
+        const response = await this.client.get(`/api/v1/market/ticker/${symbol}`);
+        return response.data;
+    }
+
     // Portfolio
     async getPortfolio() {
         const response = await this.client.get(API_ENDPOINTS.portfolio);
