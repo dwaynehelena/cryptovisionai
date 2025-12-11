@@ -54,7 +54,7 @@ def get_available_symbols(trading_system: TradingSystem = Depends(get_trading_sy
     """Get list of available trading symbols"""
     try:
         # Get exchange info from Binance
-        exchange_info = trading_system.binance_connector.client.get_exchange_info()
+        exchange_info = trading_system.binance_connector.get_exchange_info()
         
         # Extract trading pairs
         symbols = []
@@ -75,8 +75,17 @@ def get_available_symbols(trading_system: TradingSystem = Depends(get_trading_sy
 def get_order_book(symbol: str, limit: int = 20, trading_system: TradingSystem = Depends(get_trading_system)):
     """Get order book depth for a symbol"""
     try:
-        order_book = trading_system.binance_connector.client.get_order_book(symbol=symbol, limit=limit)
+        order_book = trading_system.binance_connector.get_order_book(symbol=symbol, limit=limit)
         
+        # Handle mock/error response
+        if 'bids' not in order_book:
+            return {
+                'symbol': symbol,
+                'bids': [],
+                'asks': [],
+                'lastUpdateId': 0
+            }
+            
         return {
             'symbol': symbol,
             'bids': order_book['bids'],
@@ -90,8 +99,12 @@ def get_order_book(symbol: str, limit: int = 20, trading_system: TradingSystem =
 def get_recent_trades(symbol: str, limit: int = 50, trading_system: TradingSystem = Depends(get_trading_system)):
     """Get recent trades for a symbol"""
     try:
-        trades = trading_system.binance_connector.client.get_recent_trades(symbol=symbol, limit=limit)
+        trades = trading_system.binance_connector.get_recent_trades(symbol=symbol, limit=limit)
         
+        # Handle error/empty response
+        if trades and isinstance(trades[0], dict) and 'error' in trades[0]:
+            return []
+            
         return [{
             'id': trade['id'],
             'price': trade['price'],

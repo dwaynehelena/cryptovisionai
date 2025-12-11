@@ -60,7 +60,7 @@ class BinanceConnector:
                     except (KeyError, TypeError):
                         pass
                 
-            if api_key and api_secret:
+            if api_key and api_secret and "YOUR_" not in str(api_key):
                 # Strip whitespace to avoid format errors
                 api_key = str(api_key).strip()
                 api_secret = str(api_secret).strip()
@@ -83,7 +83,7 @@ class BinanceConnector:
                     except (KeyError, TypeError):
                         pass
                 
-            if api_key and api_secret:
+            if api_key and api_secret and "YOUR_" not in str(api_key):
                 # Strip whitespace to avoid format errors
                 api_key = str(api_key).strip()
                 api_secret = str(api_secret).strip()
@@ -175,6 +175,8 @@ class BinanceConnector:
             Dict: Ticker information
         """
         try:
+            if self.client is None:
+                return {'symbol': symbol, 'price': '0.0', 'mock': True}
             ticker = self.client.get_symbol_ticker(symbol=symbol)
             return ticker
         except Exception as e:
@@ -189,6 +191,8 @@ class BinanceConnector:
             Dict: Account information
         """
         try:
+            if self.client is None:
+                return {'balances': [], 'mock': True}
             account_info = self.client.get_account()
             return account_info
         except Exception as e:
@@ -203,6 +207,8 @@ class BinanceConnector:
             Dict: Exchange information
         """
         try:
+            if self.client is None:
+                return {'symbols': [], 'mock': True}
             exchange_info = self.client.get_exchange_info()
             return exchange_info
         except Exception as e:
@@ -398,6 +404,8 @@ class BinanceConnector:
             Dict: Order book data
         """
         try:
+            if self.client is None:
+                return {'bids': [], 'asks': [], 'lastUpdateId': 0, 'mock': True}
             order_book = self.client.get_order_book(symbol=symbol, limit=limit)
             return order_book
         except Exception as e:
@@ -416,6 +424,8 @@ class BinanceConnector:
             List[Dict]: Recent trades
         """
         try:
+            if self.client is None:
+                return []
             trades = self.client.get_recent_trades(symbol=symbol, limit=limit)
             return trades
         except Exception as e:
@@ -568,11 +578,13 @@ class BinanceConnector:
             List[Dict]: Open orders
         """
         try:
+            if self.client is None:
+                return []
             orders = self.client.get_open_orders(symbol=symbol)
             return orders
         except Exception as e:
             logger.error(f"Error getting open orders: {e}")
-            return [{'error': str(e)}]
+            return []
     
     def get_all_orders(self, symbol: str, limit: int = 500) -> List[Dict]:
         """
@@ -627,7 +639,8 @@ class BinanceConnector:
             str: Websocket stream URL
         """
         symbol = symbol.lower()
-        return f"wss://stream.binance.com:9443/ws/{symbol}@depth"
+        base_url = "wss://stream.testnet.binance.vision:9443/ws" if self.use_testnet else "wss://stream.binance.com:9443/ws"
+        return f"{base_url}/{symbol}@depth"
     
     def get_websocket_kline_stream(self, symbol: str, interval: str) -> str:
         """
@@ -641,7 +654,8 @@ class BinanceConnector:
             str: Websocket stream URL
         """
         symbol = symbol.lower()
-        return f"wss://stream.binance.com:9443/ws/{symbol}@kline_{interval}"
+        base_url = "wss://stream.testnet.binance.vision:9443/ws" if self.use_testnet else "wss://stream.binance.com:9443/ws"
+        return f"{base_url}/{symbol}@kline_{interval}"
     
     def get_websocket_ticker_stream(self, symbol: str) -> str:
         """
@@ -654,4 +668,5 @@ class BinanceConnector:
             str: Websocket stream URL
         """
         symbol = symbol.lower()
-        return f"wss://stream.binance.com:9443/ws/{symbol}@ticker"
+        base_url = "wss://stream.testnet.binance.vision:9443/ws" if self.use_testnet else "wss://stream.binance.com:9443/ws"
+        return f"{base_url}/{symbol}@ticker"

@@ -130,10 +130,14 @@ def get_active_orders(
     """Get all active (open) orders"""
     try:
         if symbol:
-            orders = trading_system.binance_connector.client.get_open_orders(symbol=symbol)
+            orders = trading_system.binance_connector.get_open_orders(symbol=symbol)
         else:
-            orders = trading_system.binance_connector.client.get_open_orders()
+            orders = trading_system.binance_connector.get_open_orders()
         
+        # Check if error returned (legacy behavior handling, though updated connector returns [])
+        if orders and isinstance(orders[0], dict) and 'error' in orders[0]:
+            return []
+
         return [{
             "order_id": order['orderId'],
             "symbol": order['symbol'],
@@ -146,6 +150,8 @@ def get_active_orders(
             "time": order['time']
         } for order in orders]
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/history")

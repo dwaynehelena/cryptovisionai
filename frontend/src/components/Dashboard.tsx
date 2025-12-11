@@ -51,7 +51,7 @@ import StrategyBuilder from './StrategyBuilder';
 
 const drawerWidth = 240;
 
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout/legacy';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { Button } from '@mui/material';

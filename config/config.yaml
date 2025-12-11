@@ -18,8 +18,8 @@ api:
       base_url: "https://testnet.binance.vision"
       ws_url: "wss://testnet.binance.vision/ws"
       # Replace with actual API keys when deploying
-      api_key: "YOUR_TESTNET_API_KEY"
-      api_secret: "YOUR_TESTNET_API_SECRET"
+      api_key: "fiK7ZsJjtHxpg41gfEDkmlNDm8yPhZp2bv4YIUsXkjhbs5kqXMClmCbL9NciCsFE"
+      api_secret: "zcrJ35PBRQwshvLraHYBMbQAIq2CQKnVeQSgu8FtgXyscM5D24DSktCdrxbriu28"
 
 # Alerts Configuration
 alerts:
@@ -74,8 +74,8 @@ alerts:
 # Binance connector settings
 binance:
   use_testnet: true
-  api_key: "YOUR_TESTNET_API_KEY"
-  api_secret: "YOUR_TESTNET_API_SECRET"
+  api_key: "fiK7ZsJjtHxpg41gfEDkmlNDm8yPhZp2bv4YIUsXkjhbs5kqXMClmCbL9NciCsFE"
+  api_secret: "zcrJ35PBRQwshvLraHYBMbQAIq2CQKnVeQSgu8FtgXyscM5D24DSktCdrxbriu28"
 
 # Trading Settings
 trading:
@@ -152,6 +152,14 @@ model:
         weight: 0.8
         n_estimators: 100
         max_depth: 10
+      tide:
+        enabled: true
+        weight: 1.0
+        sequence_length: 60
+        hidden_dim: 256
+        decoder_output_dim: 32
+        dropout_rate: 0.1
+        num_layers: 2
 
 # Visualization
 visualization:

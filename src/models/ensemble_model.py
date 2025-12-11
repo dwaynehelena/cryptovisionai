@@ -1600,7 +1600,7 @@ class EnsembleModel:
                 else:
                     self.logger.warning(f"Ensemble file not found: {ensemble_path}")
                     # Try to reconstruct from individual models
-                    if len(self.models) > 1:
+                    if len(self.models) >= 1:
                         from sklearn.ensemble import VotingClassifier
                         estimators = [(name, model) for name, model in self.models.items()]
                         self.ensemble = VotingClassifier(estimators=estimators, voting='soft')

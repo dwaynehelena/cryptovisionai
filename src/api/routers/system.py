@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 from src.api.dependencies import get_trading_system
 from src.trading.trading_system import TradingSystem
 from binance.client import Client
