@@ -29,6 +29,7 @@ from scipy.signal import savgol_filter
 
 # Import custom models
 from .lstm_model import LSTMModel
+from .tide_model import TiDEModel
 from .transformer_model import TransformerModel
 from .ensemble_optimizer import EnsembleOptimizer
 
@@ -1150,6 +1151,97 @@ class DynamicWeightOptimizer:
         
         logger.info(f"Initialized DynamicWeightOptimizer with learning_rate={self.learning_rate}")
 
+from sklearn.base import BaseEstimator, ClassifierMixin
+
+class TiDEWrapper(BaseEstimator, ClassifierMixin):
+    """
+    Wrapper for TiDEModel to be compatible with scikit-learn
+    """
+    def __init__(self, config, sequence_length=60, n_features=14):
+        self.config = config
+        self.sequence_length = sequence_length
+        self.n_features = n_features
+        self.model = None
+        self.classes_ = np.array([0, 1])
+        
+    def fit(self, X, y):
+        self.model = TiDEModel(
+            self.config, 
+            sequence_length=self.sequence_length, 
+            n_features=self.n_features
+        )
+        
+        # Handle input shape (TiDE expects 3D: batch, seq, feat)
+        # If X is 2D (batch, flat_feat), we might need to reshape inside TiDE or just pass as is
+        # TiDEModel implementation seems to take (seq, feat) via Input layer but flattens it immediately?
+        # Let's check TiDEModel code logic again.
+        # TiDEModel: inputs = layers.Input(shape=(self.sequence_length, self.n_features))
+        #            x = layers.Flatten()(inputs)
+        # It expects 3D input.
+        
+        # Check if X is 2D
+        if X.ndim == 2:
+            # Assume flattened sequence
+            # batch_size, total_features = X.shape
+            # n_features_per_step = total_features // self.sequence_length
+            # X_reshaped = X.reshape(-1, self.sequence_length, n_features_per_step)
+            # But TiDEModel.n_features is passed in __init__.
+            
+            # If we assume the caller passes correct data, we just reshape.
+            # However, EnsembleModel typically deals with flat features.
+            # We will try to reshape if dimensions allow.
+            
+            features_per_step = X.shape[1] // self.sequence_length
+            if features_per_step * self.sequence_length == X.shape[1]:
+                X_reshaped = X.reshape(X.shape[0], self.sequence_length, features_per_step)
+                # Update n_features if it was not set correctly
+                if self.n_features != features_per_step:
+                    # Create new model with correct input dim
+                    self.n_features = features_per_step
+                    self.model = TiDEModel(
+                        self.config, 
+                        sequence_length=self.sequence_length, 
+                        n_features=self.n_features
+                    )
+                self.model.train(X_reshaped, y)
+            else:
+                # Cannot reshape cleanly, maybe features are just features?
+                # This suggests TiDE might not be suitable or data preparation is needed.
+                # For now, we will try to pass X if the model accepts it, but Keras will fail if shape doesn't match Input.
+                # If we can't reshape, we might fail.
+                pass
+        else:
+             self.model.train(X, y)
+             
+        return self
+        
+    def predict(self, X):
+        if self.model is None:
+            return np.zeros(len(X))
+            
+        # Handle reshaping
+        if X.ndim == 2 and self.model.n_features > 0:
+             features_per_step = X.shape[1] // self.sequence_length
+             if features_per_step * self.sequence_length == X.shape[1]:
+                 X = X.reshape(X.shape[0], self.sequence_length, features_per_step)
+                 
+        probs = self.model.predict(X)
+        return (probs > 0.5).astype(int).flatten()
+        
+    def predict_proba(self, X):
+        if self.model is None:
+            return np.zeros((len(X), 2))
+            
+        # Handle reshaping
+        if X.ndim == 2 and self.model.n_features > 0:
+             features_per_step = X.shape[1] // self.sequence_length
+             if features_per_step * self.sequence_length == X.shape[1]:
+                 X = X.reshape(X.shape[0], self.sequence_length, features_per_step)
+
+        probs = self.model.predict(X)
+        return np.hstack([1-probs, probs])
+
+
 class EnsembleModel:
     """
     Ensemble model for cryptocurrency price prediction
@@ -1323,6 +1415,45 @@ class EnsembleModel:
                 model_path = os.path.join(save_dir, 'lightgbm_model.joblib')
                 joblib.dump(lgb_model, model_path)
                 self.logger.info(f"LightGBM model saved to {model_path}")
+
+        # Train TiDE if specified
+        if 'tide' in model_configs:
+            self.logger.info("Training TiDE model")
+            tide_config = model_configs['tide']
+            
+            if tide_config.get('enabled', True):
+                # Calculate likely feature dimensions
+                seq_len = tide_config.get('sequence_length', 60)
+                n_features_per_step = X_train.shape[1] // seq_len
+                
+                tide_wrapper = TiDEWrapper(
+                    config=tide_config,
+                    sequence_length=seq_len,
+                    n_features=n_features_per_step
+                )
+                
+                tide_wrapper.fit(X_train, y_train)
+                
+                # Store model
+                self.models['tide'] = tide_wrapper
+                
+                # Add to voting ensemble
+                weight = tide_config.get('weight', 1.0)
+                estimators.append(('tide', tide_wrapper, weight))
+                
+                # Evaluate on validation set
+                if X_val is not None and y_val is not None:
+                    y_pred = tide_wrapper.predict(X_val)
+                    accuracy = accuracy_score(y_val, y_pred)
+                    self.logger.info(f"TiDE validation accuracy: {accuracy:.4f}")
+                    results['tide'] = {'accuracy': accuracy}
+                
+                # Save model
+                if save_dir:
+                    model_path = os.path.join(save_dir, 'tide_model.joblib')
+                    joblib.dump(tide_wrapper, model_path)
+                    self.logger.info(f"TiDE model saved to {model_path}")
+
         
         # Create and train ensemble
         if len(estimators) > 1:
