@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoVision AI | Moonshot</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="top-app-bar">
+            <span class="material-symbols-outlined icon">rocket_launch</span>
+            <h1>CryptoVision AI <span class="badge">Moonshot</span></h1>
+            <div class="spacer"></div>
+            <span id="last-updated" class="caption">Connecting...</span>
+        </header>
+
+        <!-- Main Stats Cards -->
+        <div class="grid">
+            <div class="card summary-card">
+                <div class="card-content">
+                    <span class="label">Total Equity</span>
+                    <div class="value" id="equity">---</div>
+                </div>
+            </div>
+
+            <div class="card summary-card">
+                <div class="card-content">
+                    <span class="label">P/L (Total)</span>
+                    <div class="value" id="pnl">---</div>
+                    <div class="sub-value" id="roi">---</div>
+                </div>
+            </div>
+
+            <div class="card summary-card">
+                <div class="card-content">
+                    <span class="label">Target</span>
+                    <div class="value">$10,000</div>
+                </div>
+            </div>
+
+            <div class="card summary-card">
+                <div class="card-content">
+                    <span class="label">Est. Days to Goal</span>
+                    <div class="value" id="days-to-moonshot">---</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Intelligence -->
+        <div class="section-title">AI Model Specs</div>
+        <div class="card" style="padding: 16px;">
+            <div style="display: flex; gap: 24px; margin-bottom: 12px;">
+                <div>
+                    <span class="label">Training Features</span>
+                    <div class="value" id="train-features">--</div>
+                </div>
+                <div>
+                    <span class="label">Model Input Size</span>
+                    <div class="value" id="model-features">--</div>
+                </div>
+                <div>
+                    <span class="label">Config</span>
+                    <div class="value" id="feature-set">--</div>
+                </div>
+            </div>
+            <div class="label" style="margin-bottom: 8px;">Active Features:</div>
+            <div id="feature-tags"
+                style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 100px; overflow-y: auto;">
+                <span class="chip" style="font-size: 0.8em; padding: 2px 8px;">Waiting for data...</span>
+            </div>
+        </div>
+
+        <!-- Open Positions -->
+        <div class="section-title">Active Positions</div>
+        <div class="card list-card">
+            <div id="positions-list" class="list-content">
+                <div class="empty-state">Waiting for next scan...</div>
+            </div>
+        </div>
+
+        <!-- Top 10 Performers -->
+        <div class="section-title">Top 10 Selection</div>
+        <div class="card list-card">
+            <div id="top-performers-list" class="list-content">
+                <div class="empty-state">Scanning...</div>
+            </div>
+        </div>
+
+        <!-- Brain Activity -->
+        <div class="section-title">Brain Activity (Latest Signals)</div>
+        <div class="card list-card">
+            <div id="signals-list" class="list-content">
+                <div class="empty-state">No signals usage yet...</div>
+            </div>
+        </div>
+
+        <!-- Watchlist -->
+        <div class="section-title">Market Watch</div>
+        <div class="card list-card">
+            <div id="prices-list" class="chips-container">
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js?v=2"></script>
+</body>
+
+</html>

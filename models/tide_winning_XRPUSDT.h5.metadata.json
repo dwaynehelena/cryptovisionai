@@ -1,0 +1,15 @@
+{
+    "timestamp": "2025-12-12T20:46:24.568038",
+    "accuracy": 0.6337368215540804,
+    "params": {
+        "pt_mult": 4.0,
+        "sl_mult": 2.5,
+        "vertical_barrier": 96,
+        "dropout": 0.2,
+        "hidden_dim": 256,
+        "lr": 0.001
+    },
+    "symbol": "XRPUSDT",
+    "feature_set": "advanced",
+    "n_features": 146
+}

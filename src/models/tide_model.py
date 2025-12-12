@@ -55,14 +55,25 @@ class TiDEModel:
         # Final projection to target
         # We are predicting a binary class (Up/Down) for the next step
         # Original TiDE predicts the time series values, but we adapt it for classification here.
-        output = layers.Dense(1, activation='sigmoid')(x)
+        # Final projection to target
+        # Configurable output for Binary (1) or Multiclass (3) classification
+        output_dim = self.config.get('output_dim', 1)
+        output_activation = self.config.get('output_activation', 'sigmoid')
+        loss_fn = self.config.get('loss', 'binary_crossentropy')
+        
+        output = layers.Dense(output_dim, activation=output_activation)(x)
         
         self.model = Model(inputs=inputs, outputs=output)
         
-        optimizer = tf.keras.optimizers.Adam(learning_rate=self.config.get('learning_rate', 0.001))
-        self.model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+        # Use legacy Adam for better performance on M1/M2 Macs
+        optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=self.config.get('learning_rate', 0.001))
         
-        logger.info("TiDE model built successfully")
+        # Metric depends on problem type
+        metrics = ['accuracy']
+        
+        self.model.compile(optimizer=optimizer, loss=loss_fn, metrics=metrics)
+        
+        logger.info(f"TiDE model built: output_dim={output_dim}, activation={output_activation}, loss={loss_fn}")
         return self.model
 
     def train(self, X_train, y_train, X_val=None, y_val=None, batch_size=32, epochs=50, save_path=None):

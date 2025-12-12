@@ -1,0 +1,15 @@
+{
+    "timestamp": "2025-12-12T20:37:11.349005",
+    "accuracy": 0.5833008193523215,
+    "params": {
+        "pt_mult": 2.0,
+        "sl_mult": 3.0,
+        "vertical_barrier": 96,
+        "dropout": 0.4,
+        "hidden_dim": 128,
+        "lr": 0.001
+    },
+    "symbol": "ETHUSDT",
+    "feature_set": "advanced",
+    "n_features": 146
+}

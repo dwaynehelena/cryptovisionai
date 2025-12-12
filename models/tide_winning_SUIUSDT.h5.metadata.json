@@ -1,0 +1,15 @@
+{
+    "timestamp": "2025-12-12T21:03:49.765319",
+    "accuracy": 0.6099180007809449,
+    "params": {
+        "pt_mult": 4.0,
+        "sl_mult": 2.0,
+        "vertical_barrier": 48,
+        "dropout": 0.4,
+        "hidden_dim": 256,
+        "lr": 0.001
+    },
+    "symbol": "SUIUSDT",
+    "feature_set": "advanced",
+    "n_features": 146
+}

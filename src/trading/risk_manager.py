@@ -91,7 +91,7 @@ class RiskManager:
         
         return True, None
     
-    def calculate_position_size(
+    def _calculate_position_size_core(
         self,
         entry_price: float,
         stop_price: float,
@@ -129,6 +129,28 @@ class RiskManager:
         max_size_by_limit = max_position_value / entry_price
         
         return min(position_size, max_size_by_limit)
+
+    def calculate_position_size(self, symbol: str, price: float, signal_strength: float, 
+                               volatility: Optional[float] = None) -> float:
+        """
+        Wrapper to match TradingSystem signature
+        """
+        # We need a stop price to calculate risk-based sizing
+        # Assume LONG for strictly sizing purposes (distance is absolute anyway)
+        stop_price = self.calculate_stop_loss(symbol, price, "LONG", volatility)
+        
+        # Logic to upscale size based on signal_strength (optional, referencing original internal RiskManager)
+        # Original: position_value *= (0.5 + signal_strength)
+        
+        base_size = self._calculate_position_size_core(price, stop_price, self.peak_value, volatility)
+        
+        # Apply signal strength multiplier (0.5 to 1.5)
+        # Default signal_strength is often around 0.5-0.9?
+        # If signal_strength is 0-1, we can map it.
+        if signal_strength > 0:
+             base_size *= (0.5 + signal_strength)
+             
+        return base_size
     
     def calculate_atr_stop(
         self,
@@ -375,3 +397,76 @@ class RiskManager:
     def disable_trading(self):
         """Disable trading"""
         self.limits.trading_enabled = False
+
+    # --- Compatibility Methods for TradingSystem ---
+
+    def calculate_volatility(self, price_data: pd.DataFrame, window: int = 20) -> float:
+        """
+        Calculate asset volatility (standard deviation of returns)
+        """
+        if len(price_data) < 2:
+            return 0.0
+            
+        returns = price_data['close'].pct_change().dropna()
+        if len(returns) > window:
+            returns = returns[-window:]
+            
+        return float(returns.std())
+
+    def calculate_stop_loss(self, symbol: str, price: float, position_type: str, 
+                           volatility: Optional[float] = None) -> float:
+        """
+        Calculate stop loss price based on risk parameters and volatility
+        """
+        # Base stop loss on risk limit or volatility
+        # Use ATR-like logic if volatility provided, else fixed %
+        
+        stop_percent = self.limits.max_risk_per_trade_pct # Default use trade risk % as distance logic base
+        
+        if volatility is not None and volatility > 0:
+            # If volatility is provided, use it to scale the stop
+            # Volatility is std dev of returns. 2 std devs is a good stop.
+            stop_percent = volatility * 2.0 * 100
+            
+        # Hard cap
+        stop_percent = min(stop_percent, 10.0)
+        
+        if position_type.lower() == "long":
+            stop_price = price * (1 - stop_percent / 100)
+        else: # short
+            stop_price = price * (1 + stop_percent / 100)
+            
+        return stop_price
+
+    def calculate_take_profit(self, symbol: str, price: float, position_type: str,
+                             volatility: Optional[float] = None) -> float:
+        """
+        Calculate take profit price based on risk parameters
+        """
+        # Usually TP is 2x or 3x risk (Risk/Reward ratio)
+        # We can calculate SL distance first
+        stop_price = self.calculate_stop_loss(symbol, price, position_type, volatility)
+        risk_distance = abs(price - stop_price)
+        
+        reward_distance = risk_distance * 2.0 # 1:2 Risk/Reward
+        
+        if position_type.lower() == "long":
+            tp_price = price + reward_distance
+        else: # short
+            tp_price = price - reward_distance
+            
+        return tp_price
+
+    def can_open_position(self, symbol: str, price_data: pd.DataFrame) -> bool:
+        """
+        Check if a new position can be opened based on risk limits
+        """
+        # Basic check: is trading enabled?
+        if not self.limits.trading_enabled:
+            return False
+            
+        # We could check validation logic here if we had portfolio state
+        # For now, we assume if trading is enabled and no violations, it is OK.
+        # Specific position sizing limits are checked in 'calculate_position_size' / 'validate_position_size'
+        
+        return True

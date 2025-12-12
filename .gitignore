@@ -51,6 +51,7 @@ frontend/out/
 .DS_Store
 
 # Data
-data/
+# data/
 
 .pytest_cache/
+models/*.h5

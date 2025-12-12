@@ -1,0 +1,15 @@
+{
+    "timestamp": "2025-12-12T20:41:43.419976",
+    "accuracy": 0.6388997268825595,
+    "params": {
+        "pt_mult": 4.0,
+        "sl_mult": 2.0,
+        "vertical_barrier": 96,
+        "dropout": 0.3,
+        "hidden_dim": 256,
+        "lr": 0.0005
+    },
+    "symbol": "SOLUSDT",
+    "feature_set": "advanced",
+    "n_features": 146
+}

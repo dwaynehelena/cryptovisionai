@@ -1,0 +1,15 @@
+{
+    "timestamp": "2025-12-12T20:58:46.693863",
+    "accuracy": 0.6118703631393987,
+    "params": {
+        "pt_mult": 4.0,
+        "sl_mult": 2.5,
+        "vertical_barrier": 96,
+        "dropout": 0.2,
+        "hidden_dim": 128,
+        "lr": 0.001
+    },
+    "symbol": "ADAUSDT",
+    "feature_set": "advanced",
+    "n_features": 146
+}

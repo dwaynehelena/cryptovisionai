@@ -81,21 +81,21 @@ binance:
 trading:
   base_asset: "BTC"
   quote_asset: "USDT"
-  initial_capital: 10000.0  # Default starting capital in USDT
+  initial_capital: 2500.0  # Aggressive Moonshot Start
   update_interval_seconds: 60
   signal_interval_minutes: 60
   test_mode: true  # Simulate trades without executing
 
 # Risk Management
 risk_management:
-  max_portfolio_risk: 5.0  # Maximum allowed risk (5%)
-  max_position_size: 20.0  # Maximum position size as % of portfolio
-  max_open_positions: 5
-  stop_loss_percent: 3.0  # Default stop loss (3%)
-  take_profit_percent: 6.0  # Default take profit (6%)
-  max_drawdown_limit: 20.0
-  risk_per_trade: 1.0  # % of portfolio per trade
-  kelly_fraction: 0.5  # Kelly criterion fraction
+  max_portfolio_risk: 25.0  # Aggressive: Max 25% risk
+  max_position_size: 25.0  # Aggressive: Up to 25% of portfolio per coin
+  max_open_positions: 10   # Allow trading all 10 coins
+  stop_loss_percent: 5.0   # Wider stop for volatility
+  take_profit_percent: 10.0 # Aim for bigger wins
+  max_drawdown_limit: 30.0 # Tolerate higher drawdown
+  risk_per_trade: 15.0     # Aggressive: 15% per trade
+  kelly_fraction: 0.8      # Aggressive Kelly
   volatility_window: 20
   max_correlation: 0.7
 
@@ -155,11 +155,11 @@ model:
       tide:
         enabled: true
         weight: 1.0
-        sequence_length: 60
+        sequence_length: 120
         hidden_dim: 256
         decoder_output_dim: 32
         dropout_rate: 0.1
-        num_layers: 2
+        num_layers: 3
 
 # Visualization
 visualization:

@@ -1,0 +1,136 @@
+{
+    "initial_capital": 1000.0,
+    "current_capital": 1000.0,
+    "positions": {
+        "XRPUSDT_short_20251212184350": {
+            "symbol": "XRPUSDT",
+            "position_id": "XRPUSDT_short_20251212184350",
+            "position_type": "short",
+            "entry_price": 2.0352,
+            "exit_price": null,
+            "amount": 138.67312597122583,
+            "leverage": 1.0,
+            "entry_time": "2025-12-12T18:43:50.824445",
+            "exit_time": null,
+            "pnl": 0.0,
+            "pnl_percent": 0.0,
+            "status": "open",
+            "stop_loss": 2.054654796298025,
+            "take_profit": 1.9962904074039503,
+            "duration": null,
+            "metadata": {
+                "signal_strength": 0.6289101839065552,
+                "volatility": 0.004779578493028953,
+                "entry_timestamp": "2025-12-12T18:43:50.824448"
+            }
+        },
+        "BNBUSDT_short_20251212184351": {
+            "symbol": "BNBUSDT",
+            "position_id": "BNBUSDT_short_20251212184351",
+            "position_type": "short",
+            "entry_price": 889.65,
+            "exit_price": null,
+            "amount": 0.3200090401143025,
+            "leverage": 1.0,
+            "entry_time": "2025-12-12T18:43:51.284508",
+            "exit_time": null,
+            "pnl": 0.0,
+            "pnl_percent": 0.0,
+            "status": "open",
+            "stop_loss": 897.5119237946981,
+            "take_profit": 873.9261524106038,
+            "duration": null,
+            "metadata": {
+                "signal_strength": 0.6387841701507568,
+                "volatility": 0.004418548752148683,
+                "entry_timestamp": "2025-12-12T18:43:51.284511"
+            }
+        },
+        "ADAUSDT_short_20251212184351": {
+            "symbol": "ADAUSDT",
+            "position_id": "ADAUSDT_short_20251212184351",
+            "position_type": "short",
+            "entry_price": 0.426,
+            "exit_price": null,
+            "amount": 794.4040245293452,
+            "leverage": 1.0,
+            "entry_time": "2025-12-12T18:43:51.903728",
+            "exit_time": null,
+            "pnl": 0.0,
+            "pnl_percent": 0.0,
+            "status": "open",
+            "stop_loss": 0.4329788329852762,
+            "take_profit": 0.4120423340294476,
+            "duration": null,
+            "metadata": {
+                "signal_strength": 0.8536644577980042,
+                "volatility": 0.008191118527319494,
+                "entry_timestamp": "2025-12-12T18:43:51.903730"
+            }
+        },
+        "DOGEUSDT_short_20251212184352": {
+            "symbol": "DOGEUSDT",
+            "position_id": "DOGEUSDT_short_20251212184352",
+            "position_type": "short",
+            "entry_price": 0.14068,
+            "exit_price": null,
+            "amount": 2085.268052593022,
+            "leverage": 1.0,
+            "entry_time": "2025-12-12T18:43:52.613400",
+            "exit_time": null,
+            "pnl": 0.0,
+            "pnl_percent": 0.0,
+            "status": "open",
+            "stop_loss": 0.14240466663539464,
+            "take_profit": 0.13723066672921072,
+            "duration": null,
+            "metadata": {
+                "signal_strength": 0.6734220385551453,
+                "volatility": 0.006129750623381559,
+                "entry_timestamp": "2025-12-12T18:43:52.613403"
+            }
+        }
+    },
+    "history": [
+        {
+            "timestamp": "2025-12-12 18:43:50.824490",
+            "capital": 1000.0,
+            "open_positions": 1,
+            "closed_positions": 0
+        },
+        {
+            "timestamp": "2025-12-12 18:43:51.284553",
+            "capital": 1000.0,
+            "open_positions": 2,
+            "closed_positions": 0
+        },
+        {
+            "timestamp": "2025-12-12 18:43:51.903773",
+            "capital": 1000.0,
+            "open_positions": 3,
+            "closed_positions": 0
+        },
+        {
+            "timestamp": "2025-12-12 18:43:52.613446",
+            "capital": 1000.0,
+            "open_positions": 4,
+            "closed_positions": 0
+        }
+    ],
+    "performance_metrics": {
+        "total_pnl": 0.0,
+        "total_pnl_percent": 0.0,
+        "win_count": 0,
+        "loss_count": 0,
+        "win_rate": 0.0,
+        "average_win": 0.0,
+        "average_loss": 0.0,
+        "largest_win": 0.0,
+        "largest_loss": 0.0,
+        "profit_factor": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "max_drawdown_percent": 0.0
+    },
+    "trade_history": []
+}
