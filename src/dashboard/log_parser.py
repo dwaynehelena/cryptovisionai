@@ -1,5 +1,6 @@
 import re
 import os
+import shutil
 from datetime import datetime
 
 LOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "autonomous_multicoin.log")
@@ -14,16 +15,37 @@ def parse_logs():
         "signals": [],
         "last_updated": "Waiting for data...",
         "model_config": {"train_features": 0, "model_features": 0, "feature_set": "unknown"},
-        "feature_list": []
+        "strategy_config": None,
+        "feature_list": [],
+        "recent_logs": [],
+        "system_status": {"log_size_mb": 0, "disk_free_gb": 0}
     }
     
+    if os.path.exists(LOG_FILE):
+        # Calculate sizes
+        try:
+            size_bytes = os.path.getsize(LOG_FILE)
+            data["system_status"]["log_size_mb"] = round(size_bytes / (1024 * 1024), 2)
+            
+            total, used, free = shutil.disk_usage(os.path.dirname(LOG_FILE))
+            data["system_status"]["disk_free_gb"] = round(free / (1024 * 1024 * 1024), 2)
+        except:
+            pass
+            
     if not os.path.exists(LOG_FILE):
         return data
 
     try:
         # Read ENTIRE file to capture startup ranking
-        with open(LOG_FILE, 'r') as f:
+        with open(LOG_FILE, 'r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
+            
+        # Define chunk for usage in reverse scans (Increased to 20k to catch older signals)
+        chunk = lines[-20000:] if len(lines) > 20000 else lines
+
+        # Extract recent logs (Last 10 lines) for "Liveness" view
+        # Filter out empty lines
+        data["recent_logs"] = [line.strip() for line in chunk[-10:] if line.strip()]
 
         # Regex Patterns
         # Regex Patterns
@@ -34,6 +56,8 @@ def parse_logs():
         # New Patterns
         config_pattern = re.compile(r"🧠 Model Config: Training Features: (?P<train>\d+) \| Model Features: (?P<model>\d+) \| Feature Set: (?P<set>\w+)")
         feature_pattern = re.compile(r"📜 Feature List: (?P<list>.*)")
+        # Strategy Config Pattern
+        strat_pattern = re.compile(r"Strategy Config: Risk: (?P<risk>[\d\.]+)% \| SL: (?P<sl>[\d\.]+)% \| TP: (?P<tp>[\d\.]+)% \| MaxPos: (?P<maxpos>\d+) \| Mode: (?P<mode>.+)")
 
         # ... (pnl parsing) ...
         
@@ -49,6 +73,19 @@ def parse_logs():
                  }
                  break # Found latest
                  
+        for line in reversed(chunk):
+            if "Strategy Config:" in line:
+                smatch = strat_pattern.search(line)
+                if smatch:
+                    data["strategy_config"] = {
+                        "risk": smatch.group("risk"),
+                        "sl": smatch.group("sl"),
+                        "tp": smatch.group("tp"),
+                        "maxpos": smatch.group("maxpos"),
+                        "mode": smatch.group("mode").strip()
+                    }
+                    break
+
         for line in reversed(lines):
              fmatch = feature_pattern.search(line)
              if fmatch:
@@ -62,6 +99,9 @@ def parse_logs():
         # Remove start anchors to matches anywhere in log line
         rank_pattern_vol = re.compile(r"\s+(?P<rank>\d+)\.\s+(?P<symbol>\w+):\s+\$(?P<perf>[-\d\.]+)M Vol")
         rank_pattern_pct = re.compile(r"\s+(?P<rank>\d+)\.\s+(?P<symbol>\w+):\s+(?P<perf>[-\d\.]+)%")
+        
+        # Strategy Config Pattern
+        strat_pattern = re.compile(r"⚙️ Strategy Config: Risk: (?P<risk>[\d\.]+)% \| SL: (?P<sl>[\d\.]+)% \| TP: (?P<tp>[\d\.]+)% \| MaxPos: (?P<maxpos>\d+)")
         
         # Define chunk for usage in reverse scans (Increased to 20k to catch older signals)
         chunk = lines[-20000:] if len(lines) > 20000 else lines

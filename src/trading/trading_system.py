@@ -1041,22 +1041,39 @@ class TradingSystem:
                 except Exception as e:
                     logger.error(f"Failed to load generic model: {e}")
             else:
-                 # Fallback to Ensemble logic if no generic TiDE
-                 # Get model path from config, default to models/ensemble
-                model_path = self.config.get("model_path", "models/ensemble")
-                if not os.path.isabs(model_path):
-                    model_path = os.path.join(base_dir, model_path)
-                    
-                if os.path.exists(model_path):
-                    logger.info(f"Loading ensemble model using {model_path}")
-                    if 'model' in self.config and 'model_config' in self.config['model']:
-                        model_config = self.config['model']['model_config']
-                    else:
-                        model_config = self.config.get("model_config", {})
+                 # Check for Hybrid/Super Ensemble First
+                 super_ensemble_path = os.path.join(base_dir, "models", "super_ensemble_BTC")
+                 if os.path.exists(super_ensemble_path + "_metadata.joblib"):
+                     logger.info(f"Found Super Ensemble at {super_ensemble_path}")
+                     try:
+                         from ..models.hybrid_ensemble import HybridEnsemble
+                         self.model = HybridEnsemble()
+                         if self.model.load(super_ensemble_path):
+                             logger.info("✅ Super Ensemble (Hybrid) loaded successfully")
+                         else:
+                             raise Exception("Load returned False")
+                     except Exception as e:
+                         logger.error(f"Failed to load Super Ensemble: {e}")
+                         # Fallback to standard
+                         self.model = None
+
+                 if self.model is None:
+                     # Fallback to Ensemble logic if no generic TiDE or Super Ensemble
+                     # Get model path from config, default to models/ensemble
+                    model_path = self.config.get("model_path", "models/ensemble")
+                    if not os.path.isabs(model_path):
+                        model_path = os.path.join(base_dir, model_path)
                         
-                    self.model = EnsembleModel(model_config)
-                    if self.model.load(model_path):
-                        logger.info("Ensemble Model loaded successfully")
+                    if os.path.exists(model_path):
+                        logger.info(f"Loading ensemble model using {model_path}")
+                        if 'model' in self.config and 'model_config' in self.config['model']:
+                            model_config = self.config['model']['model_config']
+                        else:
+                            model_config = self.config.get("model_config", {})
+                            
+                        self.model = EnsembleModel(model_config)
+                        if self.model.load(model_path):
+                            logger.info("Ensemble Model loaded successfully")
                 
             # Summary
             logger.info(f"Loaded {len(self.models)} specific models.")
@@ -1883,8 +1900,40 @@ class TradingSystem:
              n_model = 146
              
              logger.info(f"🧠 Model Config: Training Features: {n_transformed} | Model Features: {n_model} | Feature Set: standard")
+             
+             # Log Strategy Config
+             risk_cfg = self.config.get('risk_management', {})
+             logger.info(f"⚙️ Strategy Config: Risk: {risk_cfg.get('risk_per_trade', 0)}% | SL: {risk_cfg.get('stop_loss_percent', 0)}% | TP: {risk_cfg.get('take_profit_percent', 0)}% | MaxPos: {risk_cfg.get('max_open_positions', 1)} | Mode: Aggressive 🦁")
+
              # Log full list for parser
              logger.info(f"📜 Feature List: {', '.join(cols)}")
              
         except Exception as e:
              logger.error(f"Error logging model metadata: {e}")
+
+    def update_credentials(self, api_key: str, api_secret: str, testnet: bool = True) -> bool:
+        """Update API credentials and re-initialize connector"""
+        try:
+            self.config["api_key"] = api_key
+            self.config["api_secret"] = api_secret
+            self.config["use_testnet"] = testnet
+            
+            # Re-initialize connector
+            # Use absolute path for config file instead of relative path
+            config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "config", "config.yaml")
+            
+            # Close existing connector if possible (BinanceConnector might not have a close method but it's good practice to consider)
+            # self.binance_connector.client.close_connection() # Client doesn't have this, but let's just replace the object.
+            
+            self.binance_connector = BinanceConnector(
+                use_testnet=testnet, 
+                config_path=config_path,
+                api_key=api_key,
+                api_secret=api_secret
+            )
+            
+            logger.info(f"Updated credentials. Testnet: {testnet}")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to update credentials: {e}")
+            return False

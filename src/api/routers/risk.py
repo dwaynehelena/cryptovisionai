@@ -91,7 +91,7 @@ def get_risk_status(trading_system: TradingSystem = Depends(get_trading_system))
         # Get position values
         position_values = {}
         for symbol, position in portfolio.positions.items():
-            position_values[symbol] = position.quantity * position.current_price
+            position_values[symbol] = position.amount * position.current_price
         
         # Get risk status
         status = risk_mgr.get_status(current_value, position_values)
@@ -195,14 +195,14 @@ def emergency_close_all(
                 # Place market sell order
                 result = trading_system.binance_connector.client.create_order(
                     symbol=symbol,
-                    side='SELL' if position.side == 'LONG' else 'BUY',
+                    side='SELL' if position.position_type == 'long' else 'BUY',
                     type='MARKET',
-                    quantity=position.quantity
+                    quantity=position.amount
                 )
                 
                 closed_positions.append({
                     "symbol": symbol,
-                    "quantity": position.quantity,
+                    "quantity": position.amount,
                     "order_id": result['orderId']
                 })
                 

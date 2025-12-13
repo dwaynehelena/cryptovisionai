@@ -112,7 +112,7 @@ data:
 
 # Model Settings
 model:
-  model_path: "models/ensemble"
+  model_path: "models/super_ensemble_BTC"
   feature_set: "advanced"
   training:
     validation_split: 0.2

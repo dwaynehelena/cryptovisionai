@@ -64,7 +64,17 @@ export default function Settings() {
         setValidationResult(null);
         try {
             const result = await apiService.validateApiKeys(apiKey, apiSecret, testnet);
-            setValidationResult(result);
+
+            if (result.valid) {
+                try {
+                    await apiService.updateSystemConfig(apiKey, apiSecret, testnet);
+                    setValidationResult({ valid: true, message: 'Keys validated and system updated successfully!' });
+                } catch (updateError) {
+                    setValidationResult({ valid: false, message: 'Keys valid but failed to update system configuration.' });
+                }
+            } else {
+                setValidationResult(result);
+            }
         } catch (error) {
             setValidationResult({ valid: false, message: 'Network error or server unavailable' });
         } finally {
@@ -87,13 +97,13 @@ export default function Settings() {
             <TabPanel value={value} index={0}>
                 <Typography variant="h6" gutterBottom>General Preferences</Typography>
                 <Grid container spacing={3}>
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid item xs={12} md={6}>
                         <FormControlLabel
                             control={<Switch defaultChecked />}
                             label="Auto-connect WebSocket on startup"
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid item xs={12} md={6}>
                         <FormControlLabel
                             control={<Switch />}
                             label="Compact Mode"
@@ -112,13 +122,13 @@ export default function Settings() {
 
                 <Box component="form" noValidate autoComplete="off">
                     <Grid container spacing={3}>
-                        <Grid size={{ xs: 12 }}>
+                        <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Switch checked={testnet} onChange={(e) => setTestnet(e.target.checked)} />}
                                 label="Use Testnet"
                             />
                         </Grid>
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 label="API Key"
@@ -127,7 +137,7 @@ export default function Settings() {
                                 type="password"
                             />
                         </Grid>
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 label="API Secret"
@@ -136,7 +146,7 @@ export default function Settings() {
                                 type="password"
                             />
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
+                        <Grid item xs={12}>
                             <Button
                                 variant="contained"
                                 onClick={handleValidateKeys}
@@ -163,7 +173,7 @@ export default function Settings() {
                     These settings act as a hard stop for all trading activities.
                 </Alert>
                 <Grid container spacing={3}>
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             fullWidth
                             label="Max Daily Drawdown (%)"
@@ -171,7 +181,7 @@ export default function Settings() {
                             type="number"
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             fullWidth
                             label="Max Position Size (% of Equity)"
@@ -179,7 +189,7 @@ export default function Settings() {
                             type="number"
                         />
                     </Grid>
-                    <Grid size={{ xs: 12 }}>
+                    <Grid item xs={12}>
                         <Button variant="contained" color="primary">Update Risk Limits</Button>
                     </Grid>
                 </Grid>
@@ -189,13 +199,13 @@ export default function Settings() {
             <TabPanel value={value} index={3}>
                 <Typography variant="h6" gutterBottom>Alert Preferences</Typography>
                 <Grid container spacing={2}>
-                    <Grid size={12}>
+                    <Grid item xs={12}>
                         <FormControlLabel control={<Switch defaultChecked />} label="Trade Executions" />
                     </Grid>
-                    <Grid size={12}>
+                    <Grid item xs={12}>
                         <FormControlLabel control={<Switch defaultChecked />} label="Risk Limit Warnings" />
                     </Grid>
-                    <Grid size={12}>
+                    <Grid item xs={12}>
                         <FormControlLabel control={<Switch />} label="Price Alerts" />
                     </Grid>
                 </Grid>

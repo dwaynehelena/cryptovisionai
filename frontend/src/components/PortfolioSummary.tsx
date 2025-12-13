@@ -18,13 +18,13 @@ import {
 import apiService from '../services/api';
 
 interface PortfolioData {
+    total_value: number;
     initial_capital: number;
-    current_capital: number;
-    portfolio_value: number;
-    profit_loss: number;
-    profit_loss_percent: number;
-    open_positions: number;
-    closed_positions: number;
+    total_pnl: number;
+    total_return_pct: number;
+    positions_count: number;
+    assets: any[];
+    last_updated: string;
 }
 
 export default function PortfolioSummary() {
@@ -48,13 +48,13 @@ export default function PortfolioSummary() {
             setLoading(false);
             // Set fallback data on error
             setPortfolio({
+                total_value: 0,
                 initial_capital: 0,
-                current_capital: 0,
-                portfolio_value: 0,
-                profit_loss: 0,
-                profit_loss_percent: 0,
-                open_positions: 0,
-                closed_positions: 0,
+                total_pnl: 0,
+                total_return_pct: 0,
+                positions_count: 0,
+                assets: [],
+                last_updated: new Date().toISOString()
             });
         }
     };
@@ -120,36 +120,36 @@ export default function PortfolioSummary() {
 
     return (
         <Grid container spacing={3}>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid item xs={12} sm={6} md={3}>
                 <StatCard
                     title="Portfolio Value"
-                    value={portfolio?.portfolio_value != null ? `$${portfolio.portfolio_value.toLocaleString()}` : '-'}
-                    change={portfolio?.profit_loss_percent}
+                    value={portfolio?.total_value != null ? `$${portfolio.total_value.toLocaleString()}` : '-'}
+                    change={portfolio?.total_return_pct}
                     icon={<BalanceIcon sx={{ color: theme.palette.primary.main }} />}
                     color={theme.palette.primary.main}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid item xs={12} sm={6} md={3}>
                 <StatCard
                     title="Profit / Loss"
-                    value={portfolio?.profit_loss != null ? `$${portfolio.profit_loss.toLocaleString()}` : '-'}
-                    change={portfolio?.profit_loss_percent}
-                    icon={<ChartIcon sx={{ color: portfolio && portfolio.profit_loss >= 0 ? theme.palette.success.main : theme.palette.error.main }} />}
-                    color={portfolio && portfolio.profit_loss >= 0 ? theme.palette.success.main : theme.palette.error.main}
+                    value={portfolio?.total_pnl != null ? `$${portfolio.total_pnl.toLocaleString()}` : '-'}
+                    change={portfolio?.total_return_pct}
+                    icon={<ChartIcon sx={{ color: portfolio && portfolio.total_pnl >= 0 ? theme.palette.success.main : theme.palette.error.main }} />}
+                    color={portfolio && portfolio.total_pnl >= 0 ? theme.palette.success.main : theme.palette.error.main}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid item xs={12} sm={6} md={3}>
                 <StatCard
                     title="Open Positions"
-                    value={portfolio?.open_positions || 0}
+                    value={portfolio?.positions_count || 0}
                     icon={<TrendingUpIcon sx={{ color: theme.palette.info.main }} />}
                     color={theme.palette.info.main}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid item xs={12} sm={6} md={3}>
                 <StatCard
                     title="Closed Positions"
-                    value={portfolio?.closed_positions || 0}
+                    value={0} // Not currently available in summary endpoint
                     icon={<ChartIcon sx={{ color: theme.palette.secondary.main }} />}
                     color={theme.palette.secondary.main}
                 />

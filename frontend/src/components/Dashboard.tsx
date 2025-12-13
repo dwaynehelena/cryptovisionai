@@ -15,6 +15,7 @@ import {
     ListItemText,
     useTheme,
     alpha,
+    Divider,
 } from '@mui/material';
 import {
     Menu as MenuIcon,
@@ -25,6 +26,20 @@ import {
     ShowChart as ChartIcon,
     Brightness4 as Brightness4Icon,
     Brightness7 as Brightness7Icon,
+    Security as SecurityIcon,
+    ListAlt as OrderBookIcon,
+    History as HistoryIcon,
+    SwapHoriz as TradeIcon,
+    Assessment as AssessmentIcon,
+    PieChart as PieChartIcon,
+    Psychology as PsychologyIcon,
+    Article as NewsIcon,
+    Lightbulb as StrategyIcon,
+    Timeline as TimelineIcon,
+    Visibility as VisibilityIcon,
+    Speed as SpeedIcon,
+    DataUsage as DataUsageIcon,
+    Memory as MemoryIcon,
 } from '@mui/icons-material';
 import ConnectionStatus from './ConnectionStatus';
 
@@ -32,6 +47,11 @@ const drawerWidth = 240;
 
 const Dashboard: React.FC = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    // Lifted state for symbol selection
+    const [selectedSymbol, setSelectedSymbol] = useState<string>('BTCUSDT');
+    const [currentPrice] = useState(0); // This should ideally come from a context or global store
+    const [accountBalance] = useState(10000);
+
     const theme = useTheme();
     const colorMode = useContext(ColorModeContext);
     const navigate = useNavigate();
@@ -41,11 +61,37 @@ const Dashboard: React.FC = () => {
         setMobileOpen(!mobileOpen);
     };
 
+    // Define icons clearly
+    const SwapHorizIcon = TradeIcon;
+    const ListAltIcon = OrderBookIcon;
+    const ArticleIcon = NewsIcon;
+    const LightbulbIcon = StrategyIcon;
+
     const menuItems = [
         { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-        { text: 'Market', icon: <TrendingUpIcon />, path: '/market' },
-        { text: 'Portfolio', icon: <PortfolioIcon />, path: '/portfolio' },
-        { text: 'Charts', icon: <ChartIcon />, path: '/charts' },
+        // Trading
+        { text: 'Market Chart', icon: <ChartIcon />, path: '/chart' },
+        { text: 'Order Form', icon: <SwapHorizIcon />, path: '/trade' },
+        { text: 'Order Book', icon: <ListAltIcon />, path: '/orderbook' },
+        { text: 'Recent Trades', icon: <HistoryIcon />, path: '/recent-trades' },
+        { text: 'Order Management', icon: <AssessmentIcon />, path: '/orders' },
+        { text: 'Watchlist', icon: <VisibilityIcon />, path: '/watchlist' },
+        // Risk
+        { text: 'Risk Monitor', icon: <SecurityIcon />, path: '/risk' },
+        { text: 'Volatility', icon: <SpeedIcon />, path: '/volatility' },
+        { text: 'Risk Settings', icon: <SettingsIcon />, path: '/risk-settings' },
+        // Portfolio
+        { text: 'Portfolio Summary', icon: <PortfolioIcon />, path: '/portfolio' },
+        { text: 'Performance', icon: <TimelineIcon />, path: '/performance' },
+        { text: 'Allocation', icon: <PieChartIcon />, path: '/allocation' },
+        // Analysis
+        { text: 'Correlation', icon: <DataUsageIcon />, path: '/correlation' },
+        { text: 'Sentiment', icon: <PsychologyIcon />, path: '/sentiment' },
+        { text: 'AI Prediction', icon: <TrendingUpIcon />, path: '/prediction' },
+        { text: 'Model Performance', icon: <MemoryIcon />, path: '/models' },
+        { text: 'News Feed', icon: <ArticleIcon />, path: '/news' },
+        { text: 'Strategy', icon: <LightbulbIcon />, path: '/strategy' },
+        // System
         { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
     ];
 
@@ -56,6 +102,7 @@ const Dashboard: React.FC = () => {
                     CryptoVision<span style={{ color: theme.palette.primary.main }}>AI</span>
                 </Typography>
             </Toolbar>
+            <Divider />
             <List>
                 {menuItems.map((item) => (
                     <ListItem key={item.text} disablePadding>
@@ -159,7 +206,7 @@ const Dashboard: React.FC = () => {
                 }}
             >
                 <Toolbar />
-                <Outlet />
+                <Outlet context={{ selectedSymbol, setSelectedSymbol, currentPrice, accountBalance }} />
             </Box>
         </Box>
     );

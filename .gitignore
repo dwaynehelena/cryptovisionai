@@ -54,4 +54,4 @@ frontend/out/
 # data/
 
 .pytest_cache/
-models/*.h5
+

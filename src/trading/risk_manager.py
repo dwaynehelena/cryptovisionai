@@ -148,7 +148,12 @@ class RiskManager:
         # Default signal_strength is often around 0.5-0.9?
         # If signal_strength is 0-1, we can map it.
         if signal_strength > 0:
+             # Standard scaling: 0.5 (low conf) to 1.5 (max conf)
              base_size *= (0.5 + signal_strength)
+             
+        # AGGRESSIVE MODE: If High Confidence (>80%), boost significantly
+        if signal_strength >= 0.80:
+             base_size *= 1.5  # 50% extra boost for high conviction
              
         return base_size
     

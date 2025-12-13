@@ -30,31 +30,50 @@ import SentimentAnalysis from './SentimentAnalysis';
 import AIPrediction from './AIPrediction';
 import NewsFeed from './NewsFeed';
 import StrategyBuilder from './StrategyBuilder';
+import ModelPerformanceCard from './ModelPerformanceCard';
 import { Button, Box } from '@mui/material';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-// Initial layout configuration
+// Initial layout configuration - Optimized for clarity & width
 const initialLayouts = {
     lg: [
-        { i: 'risk_monitor', x: 0, y: 0, w: 12, h: 4 },
-        { i: 'portfolio_summary', x: 0, y: 4, w: 12, h: 3 },
-        { i: 'volatility', x: 0, y: 7, w: 3, h: 4 },
-        { i: 'market_chart', x: 3, y: 7, w: 9, h: 8 },
-        { i: 'watchlist', x: 0, y: 11, w: 3, h: 6 },
-        { i: 'order_form', x: 3, y: 15, w: 4, h: 6 },
-        { i: 'order_book', x: 7, y: 15, w: 5, h: 6 },
-        { i: 'recent_trades', x: 0, y: 17, w: 3, h: 6 },
-        { i: 'order_management', x: 3, y: 21, w: 9, h: 6 },
-        { i: 'performance', x: 0, y: 27, w: 12, h: 6 },
-        { i: 'allocation', x: 0, y: 33, w: 6, h: 6 },
-        { i: 'correlation', x: 6, y: 33, w: 6, h: 6 },
-        { i: 'risk_settings', x: 0, y: 39, w: 12, h: 4 },
-        { i: 'sentiment', x: 0, y: 43, w: 4, h: 6 },
-        { i: 'prediction', x: 4, y: 43, w: 4, h: 6 },
-        { i: 'news', x: 8, y: 43, w: 4, h: 6 },
-        { i: 'strategy', x: 0, y: 49, w: 12, h: 8 },
-        { i: 'settings_page', x: 0, y: 57, w: 12, h: 8 },
+        // Top Row: Critical Summary (Full Width for wider chips)
+        { i: 'portfolio_summary', x: 0, y: 0, w: 12, h: 4 },
+
+        // Main Stage: Risk Monitor (Top Right context) + Market Chart
+        // Move Risk Monitor to side of chart? Or keep chart big?
+        // Let's put Risk Monitor with Watchlist
+        { i: 'watchlist', x: 0, y: 4, w: 2, h: 10 },
+        { i: 'market_chart', x: 2, y: 4, w: 7, h: 10 },
+        { i: 'risk_monitor', x: 9, y: 4, w: 3, h: 10 }, // Vertical Risk Monitor?
+
+        // Trading Action Row
+        { i: 'order_form', x: 0, y: 14, w: 4, h: 8 },
+        { i: 'order_book', x: 4, y: 14, w: 4, h: 8 },
+        { i: 'recent_trades', x: 8, y: 14, w: 4, h: 8 },
+
+        // Secondary Info / Order Management
+        { i: 'order_management', x: 0, y: 22, w: 8, h: 6 },
+        { i: 'volatility', x: 8, y: 22, w: 4, h: 6 },
+
+        // Analytics Row 1
+        { i: 'performance', x: 0, y: 28, w: 6, h: 6 },
+        { i: 'allocation', x: 6, y: 28, w: 3, h: 6 },
+        { i: 'model_performance', x: 9, y: 28, w: 3, h: 6 },
+
+        // Analytics Row 2
+        { i: 'prediction', x: 0, y: 34, w: 4, h: 6 },
+        { i: 'sentiment', x: 4, y: 34, w: 4, h: 6 },
+        { i: 'news', x: 8, y: 34, w: 4, h: 6 },
+
+        // Deep Dive Analysis (Bottom)
+        { i: 'correlation', x: 0, y: 40, w: 6, h: 6 },
+        { i: 'risk_settings', x: 6, y: 40, w: 6, h: 6 },
+
+        // Strategy & Settings (Full Width)
+        { i: 'strategy', x: 0, y: 46, w: 12, h: 8 },
+        { i: 'settings_page', x: 0, y: 54, w: 12, h: 8 },
     ],
 };
 
@@ -82,8 +101,18 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ isDraggable, setIsDraggab
 
     return (
         <React.Fragment>
-            <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                 <Button
+            <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button
+                    onClick={() => {
+                        setLayouts(initialLayouts);
+                        localStorage.removeItem('dashboard_layouts');
+                    }}
+                    color="secondary"
+                    variant="outlined"
+                >
+                    Reset Layout
+                </Button>
+                <Button
                     startIcon={isDraggable ? <SaveIcon /> : <EditIcon />}
                     onClick={() => setIsDraggable(!isDraggable)}
                     color="primary"
@@ -92,7 +121,7 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ isDraggable, setIsDraggab
                     {isDraggable ? 'Save Layout' : 'Edit Layout'}
                 </Button>
             </Box>
-            
+
             <RiskAlerts />
             <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
                 <ResponsiveGridLayout
@@ -105,6 +134,8 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ isDraggable, setIsDraggab
                     isResizable={isDraggable}
                     onLayoutChange={handleLayoutChange}
                     draggableHandle=".drag-handle"
+                    compactType="vertical"
+                    preventCollision={false}
                 >
                     <div key="risk_monitor" className={isDraggable ? 'drag-handle' : ''}>
                         <RiskMonitor />
@@ -138,6 +169,9 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ isDraggable, setIsDraggab
                     </div>
                     <div key="allocation" className={isDraggable ? 'drag-handle' : ''}>
                         <PortfolioAllocation />
+                    </div>
+                    <div key="model_performance" className={isDraggable ? 'drag-handle' : ''}>
+                        <ModelPerformanceCard />
                     </div>
                     <div key="correlation" className={isDraggable ? 'drag-handle' : ''}>
                         <CorrelationMatrix />

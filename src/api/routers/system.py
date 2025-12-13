@@ -17,6 +17,11 @@ class ApiKeyValidationRequest(BaseModel):
     api_secret: str
     testnet: bool = True
 
+class SystemConfigUpdate(BaseModel):
+    api_key: str
+    api_secret: str
+    testnet: bool
+
 class SystemStatus(BaseModel):
     status: str
     version: str
@@ -76,3 +81,11 @@ def validate_api_keys(request: ApiKeyValidationRequest):
         return {"valid": False, "message": f"Binance API Error: {e.message}"}
     except Exception as e:
         return {"valid": False, "message": f"Validation Error: {str(e)}"}
+
+@router.post("/config/credentials")
+def update_credentials(config: SystemConfigUpdate, trading_system: TradingSystem = Depends(get_trading_system)):
+    """Update system credentials and reconnect"""
+    success = trading_system.update_credentials(config.api_key, config.api_secret, config.testnet)
+    if not success:
+         raise HTTPException(status_code=500, detail="Failed to update credentials")
+    return {"status": "success", "message": "Credentials updated successfully"}

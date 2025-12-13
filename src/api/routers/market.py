@@ -1,3 +1,4 @@
+import pandas as pd
 from fastapi import APIRouter, HTTPException, Depends
 from src.trading.trading_system import TradingSystem
 from src.api.dependencies import get_trading_system
@@ -21,6 +22,9 @@ def get_market_data(
         
         # Replace NaN with None for JSON compatibility
         df = df.replace({float('nan'): None})
+        
+        # Reset index to make timestamp a column again
+        df.reset_index(inplace=True)
         
         # Convert DataFrame to list of dictionaries
         data = df.to_dict('records')
@@ -151,21 +155,22 @@ def get_technical_indicators(
         df['bb_lower'] = df['bb_middle'] - (bb_std * 2)
         
         # ATR
-        high_low = df['high'] - df['low']
-        high_close = (df['high'] - df['close'].shift()).abs()
-        low_close = (df['low'] - df['close'].shift()).abs()
-        ranges = [high_low, high_close, low_close]
-        # We need pandas to concat, but if it's not imported we can't use pd.concat.
-        # Alternatively, we can use max of the three series.
-        # df['tr'] = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
-        # If I can't import pandas easily without checking if it's installed (it is), I should add the import.
+        max_window = 14
+        df['high_low'] = df['high'] - df['low']
+        df['high_close'] = (df['high'] - df['close'].shift()).abs()
+        df['low_close'] = (df['low'] - df['close'].shift()).abs()
         
-        # Let's try to add the import at the top first in a separate call or just use a workaround if possible?
-        # No, I should add the import.
+        df['tr'] = df[['high_low', 'high_close', 'low_close']].max(axis=1)
+        df['atr'] = df['tr'].rolling(window=max_window).mean()
+        
+        # Cleanup temporary columns
+        df.drop(['high_low', 'high_close', 'low_close', 'tr'], axis=1, inplace=True)
 
-        
         # Replace NaN with None for JSON compatibility
         df = df.replace({float('nan'): None})
+        
+        # Reset index to make timestamp a column again
+        df.reset_index(inplace=True)
         
         # Convert to dict
         data = df.to_dict('records')

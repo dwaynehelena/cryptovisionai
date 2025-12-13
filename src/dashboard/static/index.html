@@ -20,6 +20,39 @@
             <span id="last-updated" class="caption">Connecting...</span>
         </header>
 
+
+
+        <!-- Strategy Header -->
+        <div class="card"
+            style="margin-bottom: 20px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; background: rgba(30, 30, 40, 0.6); border: 1px solid rgba(255,255,255,0.05);">
+            <div style="display: flex; gap: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <span class="label" style="font-size: 0.75em;">Active Strategy</span>
+                    <span class="value" style="font-size: 1em; color: var(--sys-primary);" id="strat-mode">TiDE
+                        Ensemble</span>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <span class="label" style="font-size: 0.75em;">Risk / Trade</span>
+                    <span class="value" style="font-size: 1em;" id="strat-risk">--%</span>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <span class="label" style="font-size: 0.75em;">Stop Loss</span>
+                    <span class="value" style="font-size: 1em; color: var(--sys-error);" id="strat-sl">--%</span>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <span class="label" style="font-size: 0.75em;">Take Profit</span>
+                    <span class="value" style="font-size: 1em; color: var(--sys-success);" id="strat-tp">--%</span>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <span class="label" style="font-size: 0.75em;">Max Pos</span>
+                    <span class="value" style="font-size: 1em;" id="strat-max">--</span>
+                </div>
+            </div>
+            <div class="chip"
+                style="background: rgba(var(--sys-primary-rgb), 0.1); color: var(--sys-primary); font-size: 0.8em;">LIVE
+                TRADING</div>
+        </div>
+
         <!-- Main Stats Cards -->
         <div class="grid">
             <div class="card summary-card">
@@ -84,12 +117,20 @@
             </div>
         </div>
 
-        <!-- Top 10 Performers -->
-        <div class="section-title">Top 10 Selection</div>
-        <div class="card list-card">
-            <div id="top-performers-list" class="list-content">
-                <div class="empty-state">Scanning...</div>
-            </div>
+        <!-- Top 10 Performers (Collapsed) -->
+        <div class="card" style="margin-bottom: 20px;">
+            <details>
+                <summary
+                    style="padding: 12px; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
+                    <span><strong>Top 10 Selection</strong> <span style="opacity: 0.7; font-size: 0.9em;">(Volume
+                            Leaders)</span></span>
+                    <span class="material-symbols-outlined" style="font-size: 1.2em;">expand_more</span>
+                </summary>
+                <div id="top-performers-list" class="list-content"
+                    style="border-top: 1px solid rgba(255,255,255,0.05); max-height: 300px; overflow-y: auto;">
+                    <div class="empty-state">Scanning...</div>
+                </div>
+            </details>
         </div>
 
         <!-- Brain Activity -->
@@ -106,6 +147,21 @@
             <div id="prices-list" class="chips-container">
             </div>
         </div>
+
+        <!-- Live Logs -->
+        <div class="section-title">System Logs (Live)</div>
+        <div class="card"
+            style="background: #000; color: #0f0; font-family: 'Courier New', monospace; padding: 12px; height: 200px; overflow-y: auto; font-size: 0.8em; border: 1px solid #333;">
+            <div id="log-terminal" style="display: flex; flex-direction: column; gap: 4px;">
+                <div>Initializing terminal...</div>
+            </div>
+        </div>
+        <div
+            style="display: flex; justify-content: space-between; font-size: 0.7em; opacity: 0.5; margin-top: 4px; padding: 0 4px;">
+            <span>Log Size: <span id="log-size">--</span> MB</span>
+            <span>Free Disk: <span id="disk-free">--</span> GB</span>
+        </div>
+
     </div>
 
     <script src="/static/app.js?v=2"></script>

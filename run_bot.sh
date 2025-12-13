@@ -12,6 +12,10 @@ echo "🚀 Starting CryptoVisionAI Autonomous Bot (Multi-Coin Top 10)..."
 echo "💰 Goal: Moonshot ($100 -> $10,000)"
 echo "---------------------------------------------------"
 
+# Kill existing instances
+pkill -f run_autonomous_multicoin.py
+sleep 2
+
 # Check if environment exists
 if [ -f "./cryptovision_py39_env/bin/python" ]; then
     PYTHON_EXEC="./cryptovision_py39_env/bin/python"

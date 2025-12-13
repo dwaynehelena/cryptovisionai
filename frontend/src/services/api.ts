@@ -10,7 +10,7 @@ class ApiService {
     constructor() {
         this.client = axios.create({
             baseURL: API_BASE_URL,
-            timeout: 10000,
+            timeout: 50000,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -266,6 +266,15 @@ class ApiService {
         return response.data;
     }
 
+    async updateSystemConfig(apiKey: string, apiSecret: string, testnet: boolean) {
+        const response = await this.client.post('/api/v1/system/config/credentials', {
+            api_key: apiKey,
+            api_secret: apiSecret,
+            testnet
+        });
+        return response.data;
+    }
+
     // Analysis & Advanced Features
     async getSentiment(symbol: string) {
         const response = await this.client.get(`/api/v1/analysis/sentiment/${symbol}`);
@@ -284,6 +293,11 @@ class ApiService {
 
     async runBacktest(params: any) {
         const response = await this.client.post('/api/v1/analysis/backtest', params);
+        return response.data;
+    }
+
+    async getModelPerformance() {
+        const response = await this.client.get('/api/v1/analysis/models');
         return response.data;
     }
 }

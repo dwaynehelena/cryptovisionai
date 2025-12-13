@@ -101,13 +101,16 @@ class PatchTSTModel:
         
         self.model = Model(inputs=inputs, outputs=final_output)
         
-        optimizer = tf.keras.optimizers.Adam(learning_rate=self.config.get('learning_rate', 0.001))
+        try:
+            optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=self.config.get('learning_rate', 0.001))
+        except AttributeError:
+             optimizer = tf.keras.optimizers.Adam(learning_rate=self.config.get('learning_rate', 0.001))
         self.model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
         
         logger.info("PatchTST model built successfully")
         return self.model
 
-    def train(self, X_train, y_train, X_val=None, y_val=None, batch_size=32, epochs=50, save_path=None):
+    def train(self, X_train, y_train, X_val=None, y_val=None, batch_size=32, epochs=50, save_path=None, **kwargs):
         if self.model is None:
             self.build_model()
             
@@ -116,13 +119,18 @@ class PatchTSTModel:
             tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, min_lr=1e-6)
         ]
         
+        # Filter standard args from kwargs if present to avoid duplication
+        fit_kwargs = kwargs.copy()
+        if 'verbose' not in fit_kwargs:
+            fit_kwargs['verbose'] = 1
+            
         history = self.model.fit(
             X_train, y_train,
             validation_data=(X_val, y_val) if X_val is not None else None,
             batch_size=batch_size,
             epochs=epochs,
             callbacks=callbacks,
-            verbose=1
+            **fit_kwargs
         )
         
         if save_path:

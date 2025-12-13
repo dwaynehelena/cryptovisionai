@@ -65,8 +65,8 @@ async function fetchStats() {
         }
 
         // Update Positions
-        const activeList = document.getElementById('positions-list'); // FIXED ID
-        activeList.innerHTML = '';
+        const activePosList = document.getElementById('positions-list');
+        activePosList.innerHTML = '';
         if (data.positions && data.positions.length > 0) {
             data.positions.forEach(p => {
                 const item = document.createElement('div');
@@ -80,24 +80,32 @@ async function fetchStats() {
                     sparklineHtml = createSparkline(p.sparkline);
                 }
 
+                // Estimate Value
+                const val = p.amt * p.entry;
+
                 item.innerHTML = `
                     <div class="item-left">
                         <span class="symbol">${p.symbol}</span>
-                        <span class="type badge">${p.type}</span>
+                        <div style="display:flex; gap:8px;">
+                            <span class="type badge">${p.type}</span>
+                            <span style="font-size:0.75em; opacity:0.8; margin-top:2px;">Val: $${val.toFixed(0)}</span>
+                        </div>
                         <span class="entry">Entry: $${p.entry}</span>
                     </div>
                     <div class="item-center">
                        ${sparklineHtml}
+                       <div style="text-align:center; font-size:0.7em; opacity:0.5; margin-top:2px;">Live Price Action</div>
                     </div>
                     <div class="item-right">
                         <div class="pnl ${colorClass}">$${p.pnl.toFixed(2)}</div>
                         <div class="pct ${colorClass}">${p.pct.toFixed(2)}%</div>
+                         <div style="text-align:right; font-size:0.7em; opacity:0.7;">Unrealized P&L</div>
                     </div>
                 `;
-                activeList.appendChild(item);
+                activePosList.appendChild(item);
             });
         } else {
-            activeList.innerHTML = '<div class="empty-state">No open positions</div>';
+            activePosList.innerHTML = '<div class="empty-state">No open positions</div>';
         }
 
         // Update Model Config
@@ -149,6 +157,18 @@ async function fetchStats() {
             });
         }
 
+        // Update Strategy Config
+        if (data.strategy_config) {
+            const modeEl = document.getElementById('strat-mode');
+            if (modeEl && data.strategy_config.mode) {
+                modeEl.innerText = data.strategy_config.mode;
+            }
+            document.getElementById('strat-risk').innerText = `${data.strategy_config.risk}%`;
+            document.getElementById('strat-sl').innerText = `${data.strategy_config.sl}%`;
+            document.getElementById('strat-tp').innerText = `${data.strategy_config.tp}%`;
+            document.getElementById('strat-max').innerText = data.strategy_config.maxpos;
+        }
+
         // Update Signals
         const sigList = document.getElementById('signals-list');
         sigList.innerHTML = '';
@@ -171,11 +191,12 @@ async function fetchStats() {
                 item.innerHTML = `
                     <div class="item-left">
                         <span class="symbol">${s.symbol}</span>
-                        <span class="entry" style="font-family: monospace; font-size: 11px;">${timeStr}</span>
+                        <div style="font-size:0.7em; opacity:0.7;">Time: ${timeStr}</div>
+                        <div style="font-size:0.7em; opacity:0.7;">Conf: ${(s.conf * 100).toFixed(0)}%</div>
                     </div>
                     <div class="item-right">
                         <div class="pnl ${colorClass}" style="font-size: 14px;">${s.signal}</div>
-                        <div class="pct" style="font-size: 10px;">Conf: ${(s.conf * 100).toFixed(0)}%</div>
+                        <div class="pct" style="font-size: 10px;">Prob: High</div>
                     </div>
                 `;
                 sigList.appendChild(item);
@@ -184,33 +205,46 @@ async function fetchStats() {
             sigList.innerHTML = '<div class="empty-state">No recent signals</div>';
         }
 
+        // Update Market Watch with Details (Prices) is fine.
+
+
+
         // Update Market Watch
         const priceList = document.getElementById('prices-list');
         if (priceList) {
             priceList.innerHTML = '';
             if (data.prices && data.prices.length > 0) {
-                priceList.style.display = 'flex';
-                priceList.style.flexWrap = 'wrap';
-                priceList.style.gap = '8px';
-                priceList.style.padding = '8px';
-
                 data.prices.forEach(p => {
                     const chip = document.createElement('div');
                     chip.className = 'chip';
-                    chip.style.display = 'flex';
-                    chip.style.flexDirection = 'column';
-                    chip.style.alignItems = 'center';
-                    chip.style.padding = '4px 8px';
-
-                    chip.innerHTML = `
-                        <span style="font-weight:bold; font-size:0.8em; margin-bottom:2px;">${p.symbol}</span>
-                        <span style="font-family:monospace; font-size:0.9em;">$${p.price.toFixed(p.price < 1 ? 4 : 2)}</span>
-                     `;
+                    chip.innerHTML = `<span style="font-weight:bold">${p.symbol}</span> <span>$${p.price.toFixed(p.price < 1 ? 4 : 2)}</span>`;
                     priceList.appendChild(chip);
                 });
             } else {
-                priceList.innerHTML = '<div class="empty-state">Waiting for prices...</div>';
+                priceList.innerHTML = '<div style="opacity:0.5; font-size:0.8em">Waiting for prices...</div>';
             }
+        }
+
+        // Update Live Logs
+        const logTerm = document.getElementById('log-terminal');
+        if (logTerm && data.recent_logs && data.recent_logs.length > 0) {
+            logTerm.innerHTML = '';
+            data.recent_logs.forEach(line => {
+                const lineDiv = document.createElement('div');
+                lineDiv.innerText = line;
+                if (line.includes("ERROR")) lineDiv.style.color = "#ff5555";
+                else if (line.includes("WARNING")) lineDiv.style.color = "#ffaa00";
+                else if (line.includes("INFO")) lineDiv.style.color = "#00ff00";
+                logTerm.appendChild(lineDiv);
+            });
+            // Auto scroll parent
+            logTerm.parentElement.scrollTop = logTerm.parentElement.scrollHeight;
+        }
+
+        // Update System Status
+        if (data.system_status) {
+            document.getElementById('log-size').innerText = data.system_status.log_size_mb;
+            document.getElementById('disk-free').innerText = data.system_status.disk_free_gb;
         }
 
     } catch (e) {
