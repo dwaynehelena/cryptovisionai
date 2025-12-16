@@ -172,5 +172,11 @@
         "accuracy": 0.5721,
         "timestamp": "2025-12-17T00:23:22.496406",
         "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "BTCUSDT",
+        "accuracy": 0.5243,
+        "timestamp": "2025-12-17T00:24:00.225451",
+        "model_type": "Super Ensemble (Hybrid)"
     }
 ]
