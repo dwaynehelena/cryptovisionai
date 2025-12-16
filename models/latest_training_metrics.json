@@ -1,6 +1,6 @@
 {
-    "symbol": "PARTIUSDT",
-    "accuracy": 0.5609,
-    "timestamp": "2025-12-16T07:14:30.125318",
+    "symbol": "OGUSDT",
+    "accuracy": 0.5182,
+    "timestamp": "2025-12-16T21:09:38.691033",
     "model_type": "Super Ensemble (Hybrid)"
 }

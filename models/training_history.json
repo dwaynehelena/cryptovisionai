@@ -58,5 +58,71 @@
         "accuracy": 0.5609,
         "timestamp": "2025-12-16T07:14:30.125318",
         "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACEUSDT",
+        "accuracy": 0.6591,
+        "timestamp": "2025-12-16T12:42:41.278007",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PYRUSDT",
+        "accuracy": 0.6205,
+        "timestamp": "2025-12-16T12:54:46.857453",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "DGBUSDT",
+        "accuracy": 0.5928,
+        "timestamp": "2025-12-16T13:06:12.460939",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ENSOUSDT",
+        "accuracy": 0.5878,
+        "timestamp": "2025-12-16T13:29:20.452014",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "HEMIUSDT",
+        "accuracy": 0.6962,
+        "timestamp": "2025-12-16T13:38:31.746367",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "EDENUSDT",
+        "accuracy": 0.5842,
+        "timestamp": "2025-12-16T20:22:35.479998",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "EDENUSDT",
+        "accuracy": 0.578,
+        "timestamp": "2025-12-16T20:31:12.572671",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PORTALUSDT",
+        "accuracy": 0.6552,
+        "timestamp": "2025-12-16T20:40:33.459487",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "GLMUSDT",
+        "accuracy": 0.5666,
+        "timestamp": "2025-12-16T20:49:34.571558",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "CUSDT",
+        "accuracy": 0.565,
+        "timestamp": "2025-12-16T20:57:54.910002",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "OGUSDT",
+        "accuracy": 0.5182,
+        "timestamp": "2025-12-16T21:09:38.691033",
+        "model_type": "Super Ensemble (Hybrid)"
     }
 ]
