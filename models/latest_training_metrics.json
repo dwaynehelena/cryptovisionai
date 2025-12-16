@@ -1,6 +1,6 @@
 {
-    "symbol": "BCHUSDT",
-    "accuracy": 0.5486,
-    "timestamp": "2025-12-17T04:36:57.616368",
+    "symbol": "ARBUSDT",
+    "accuracy": 0.5313,
+    "timestamp": "2025-12-17T04:49:13.716166",
     "model_type": "Super Ensemble (Hybrid)"
 }
