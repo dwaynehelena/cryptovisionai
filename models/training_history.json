@@ -154,5 +154,11 @@
         "accuracy": 0.5979,
         "timestamp": "2025-12-16T23:56:45.907953",
         "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ETHUSDT",
+        "accuracy": 0.5157,
+        "timestamp": "2025-12-16T23:57:32.879160",
+        "model_type": "Super Ensemble (Hybrid)"
     }
 ]
