@@ -124,5 +124,17 @@
         "accuracy": 0.5182,
         "timestamp": "2025-12-16T21:09:38.691033",
         "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACTUSDT",
+        "accuracy": 0.6599,
+        "timestamp": "2025-12-16T21:47:32.094959",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "TNSRUSDT",
+        "accuracy": 0.592,
+        "timestamp": "2025-12-16T21:57:20.792666",
+        "model_type": "Super Ensemble (Hybrid)"
     }
 ]
