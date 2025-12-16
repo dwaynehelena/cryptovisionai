@@ -1,0 +1,302 @@
+[
+    {
+        "symbol": "KITEUSDT",
+        "accuracy": 0.5993,
+        "timestamp": "2025-12-16T03:31:43",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ZECUSDT",
+        "accuracy": 0.5353,
+        "timestamp": "2025-12-16T03:26:00",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "SOLUSDT",
+        "accuracy": 0.5189,
+        "timestamp": "2025-12-16T03:41:39",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ETHUSDT",
+        "accuracy": 0.5102,
+        "timestamp": "2025-12-16T03:16:19",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "FLUXUSDT",
+        "accuracy": 0.508,
+        "timestamp": "2025-12-16T03:06:00",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "MAGICUSDT",
+        "accuracy": 0.577,
+        "timestamp": "2025-12-16T04:12:17.762297",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "BANANAS31USDT",
+        "accuracy": 0.5196,
+        "timestamp": "2025-12-16T04:24:16.804750",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "FORMUSDT",
+        "accuracy": 0.5503,
+        "timestamp": "2025-12-16T04:39:12.515452",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PARTIUSDT",
+        "accuracy": 0.5667,
+        "timestamp": "2025-12-16T07:08:29.733565",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PARTIUSDT",
+        "accuracy": 0.5609,
+        "timestamp": "2025-12-16T07:14:30.125318",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACEUSDT",
+        "accuracy": 0.6591,
+        "timestamp": "2025-12-16T12:42:41.278007",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PYRUSDT",
+        "accuracy": 0.6205,
+        "timestamp": "2025-12-16T12:54:46.857453",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "DGBUSDT",
+        "accuracy": 0.5928,
+        "timestamp": "2025-12-16T13:06:12.460939",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ENSOUSDT",
+        "accuracy": 0.5878,
+        "timestamp": "2025-12-16T13:29:20.452014",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "HEMIUSDT",
+        "accuracy": 0.6962,
+        "timestamp": "2025-12-16T13:38:31.746367",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "EDENUSDT",
+        "accuracy": 0.5842,
+        "timestamp": "2025-12-16T20:22:35.479998",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "EDENUSDT",
+        "accuracy": 0.578,
+        "timestamp": "2025-12-16T20:31:12.572671",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PORTALUSDT",
+        "accuracy": 0.6552,
+        "timestamp": "2025-12-16T20:40:33.459487",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "GLMUSDT",
+        "accuracy": 0.5666,
+        "timestamp": "2025-12-16T20:49:34.571558",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "CUSDT",
+        "accuracy": 0.565,
+        "timestamp": "2025-12-16T20:57:54.910002",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "OGUSDT",
+        "accuracy": 0.5182,
+        "timestamp": "2025-12-16T21:09:38.691033",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACTUSDT",
+        "accuracy": 0.6599,
+        "timestamp": "2025-12-16T21:47:32.094959",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "TNSRUSDT",
+        "accuracy": 0.592,
+        "timestamp": "2025-12-16T21:57:20.792666",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "SOLUSDT",
+        "accuracy": 0.5447,
+        "timestamp": "2025-12-16T23:17:35.927298",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "EDENUSDT",
+        "accuracy": 0.5983,
+        "timestamp": "2025-12-16T23:31:34.963450",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ENSOUSDT",
+        "accuracy": 0.5979,
+        "timestamp": "2025-12-16T23:56:45.907953",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ETHUSDT",
+        "accuracy": 0.5157,
+        "timestamp": "2025-12-16T23:57:32.879160",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ETHUSDT",
+        "accuracy": 0.5196,
+        "timestamp": "2025-12-17T00:00:53.483353",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "XVSUSDT",
+        "accuracy": 0.5721,
+        "timestamp": "2025-12-17T00:23:22.496406",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "BTCUSDT",
+        "accuracy": 0.5243,
+        "timestamp": "2025-12-17T00:24:00.225451",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "EPICUSDT",
+        "accuracy": 0.5556,
+        "timestamp": "2025-12-17T00:35:50.110126",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PYRUSDT",
+        "accuracy": 0.5627,
+        "timestamp": "2025-12-17T00:39:40.475527",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ORDIUSDT",
+        "accuracy": 0.5415,
+        "timestamp": "2025-12-17T00:47:19.343058",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "XRPUSDT",
+        "accuracy": 0.5172,
+        "timestamp": "2025-12-17T00:53:49.925586",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "FORMUSDT",
+        "accuracy": 0.5499,
+        "timestamp": "2025-12-17T00:55:41.286656",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACEUSDT",
+        "accuracy": 0.6011,
+        "timestamp": "2025-12-17T01:08:28.577028",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "OGUSDT",
+        "accuracy": 0.5243,
+        "timestamp": "2025-12-17T01:13:49.093763",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PORTALUSDT",
+        "accuracy": 0.5948,
+        "timestamp": "2025-12-17T01:13:49.504042",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "PARTIUSDT",
+        "accuracy": 0.5663,
+        "timestamp": "2025-12-17T01:25:55.504449",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACEUSDT",
+        "accuracy": 0.6019,
+        "timestamp": "2025-12-17T01:26:57.087285",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "CUSDT",
+        "accuracy": 0.5465,
+        "timestamp": "2025-12-17T01:30:41.096227",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "SOMIUSDT",
+        "accuracy": 0.5706,
+        "timestamp": "2025-12-17T04:09:05.139543",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ZECUSDT",
+        "accuracy": 0.5141,
+        "timestamp": "2025-12-17T04:21:22.549703",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "TONUSDT",
+        "accuracy": 0.5392,
+        "timestamp": "2025-12-17T04:23:01.766719",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "UNIUSDT",
+        "accuracy": 0.5564,
+        "timestamp": "2025-12-17T04:23:51.067230",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "LUNCUSDT",
+        "accuracy": 0.5373,
+        "timestamp": "2025-12-17T04:35:37.387547",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "BCHUSDT",
+        "accuracy": 0.5486,
+        "timestamp": "2025-12-17T04:36:57.616368",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ARBUSDT",
+        "accuracy": 0.5313,
+        "timestamp": "2025-12-17T04:49:13.716166",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "THEUSDT",
+        "accuracy": 0.5306,
+        "timestamp": "2025-12-17T04:49:15.438618",
+        "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "GIGGLEUSDT",
+        "accuracy": 0.5894,
+        "timestamp": "2025-12-17T04:52:18.399017",
+        "model_type": "Super Ensemble (Hybrid)"
+    }
+]
