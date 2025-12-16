@@ -232,5 +232,11 @@
         "accuracy": 0.5663,
         "timestamp": "2025-12-17T01:25:55.504449",
         "model_type": "Super Ensemble (Hybrid)"
+    },
+    {
+        "symbol": "ACEUSDT",
+        "accuracy": 0.6019,
+        "timestamp": "2025-12-17T01:26:57.087285",
+        "model_type": "Super Ensemble (Hybrid)"
     }
 ]
